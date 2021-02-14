@@ -1,15 +1,22 @@
 package com.elcentr.controller;
 
-import com.elcentr.model.Customer;
+import com.elcentr.dao.CustomerDAO;
 import com.elcentr.service.CustomerService;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-public class CustomerController {
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.Writer;
 
-    private final CustomerService customerService;
+@WebServlet(name = "customer-servlet")
+public class CustomerController extends HttpServlet {
 
-    public Customer save(Customer customer) {
-        return customerService.save(customer);
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.getWriter().println("customer");
     }
 }
