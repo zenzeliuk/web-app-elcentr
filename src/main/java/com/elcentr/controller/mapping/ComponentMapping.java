@@ -1,8 +1,8 @@
-package com.elcentr.model.mapping;
+package com.elcentr.controller.mapping;
 
 import com.elcentr.model.Component;
 import com.elcentr.model.Enclosure;
-import com.elcentr.model.dto.ComponentDTO;
+import com.elcentr.controller.dto.ComponentDTO;
 
 public class ComponentMapping {
 

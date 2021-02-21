@@ -2,16 +2,18 @@ package com.elcentr.dao;
 
 import com.elcentr.factory.impl.PostgresSessionFactory;
 import com.elcentr.model.BaseEntity;
+import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.lang.reflect.ParameterizedType;
 
+@Getter
 public class BaseDAO<T extends BaseEntity> {
 
     private Class<T> type;
-    PostgresSessionFactory postgresSessionFactory = new PostgresSessionFactory();
+    private PostgresSessionFactory postgresSessionFactory = new PostgresSessionFactory();
 
     public BaseDAO() {
         this.type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

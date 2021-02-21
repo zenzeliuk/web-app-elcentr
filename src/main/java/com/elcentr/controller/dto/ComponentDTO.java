@@ -1,4 +1,4 @@
-package com.elcentr.model.dto;
+package com.elcentr.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

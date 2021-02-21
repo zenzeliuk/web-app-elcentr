@@ -19,7 +19,7 @@ public class ComponentDAO extends BaseDAO<Component> {
         if (isNull(enclosure.getId())) {
             throw new RuntimeException("Search is failed!");
         }
-        SessionFactory sessionFactory = postgresSessionFactory.getHibernateSessionFactory();
+        SessionFactory sessionFactory = super.getPostgresSessionFactory().getHibernateSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createNativeQuery("" +
