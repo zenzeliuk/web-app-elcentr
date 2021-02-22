@@ -1,7 +1,10 @@
 package com.elcentr.controller;
 
+import com.elcentr.controller.dto.EnclosureDTO;
+import com.elcentr.controller.mapper.EnclosureMapper;
 import com.elcentr.dao.EnclosureDAO;
 import com.elcentr.dao.ProductDAO;
+import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
 import com.elcentr.service.EnclosureService;
 import com.elcentr.service.ProductService;
@@ -15,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = "/create")
 public class CreateController extends HttpServlet {
@@ -29,6 +34,7 @@ public class CreateController extends HttpServlet {
 
         String action = req.getParameter("action");
         ProductService productService = new ProductService(new ProductDAO());
+        EnclosureService enclosureService = new EnclosureService(new EnclosureDAO());
         RequestDispatcher dispatcher;
 
         if (StringUtils.equalsIgnoreCase(action, "product")) {
@@ -38,7 +44,6 @@ public class CreateController extends HttpServlet {
                     .timeRegistration(new Date().getTime())
                     .name(req.getParameter("name"))
                     .amount(Integer.valueOf(req.getParameter("amount")))
-                    .indexProtectionProduct(Integer.valueOf(req.getParameter("ip")))
                     .nominalCurrent(Integer.valueOf(req.getParameter("current")))
                     .decimalNumber(req.getParameter("decimal"))
                     .build();
@@ -48,9 +53,9 @@ public class CreateController extends HttpServlet {
                 req.setAttribute("productId", savedProduct.getId());
                 req.setAttribute("productCode", savedProduct.getCode());
                 req.setAttribute("productName", savedProduct.getName());
-                req.setAttribute("productIP", savedProduct.getIndexProtectionProduct());
                 req.setAttribute("productIn", savedProduct.getNominalCurrent());
-                dispatcher = req.getRequestDispatcher("/jsp/component.jsp");
+                req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));
+                dispatcher = req.getRequestDispatcher("/jsp/enclosures.jsp");
                 dispatcher.forward(req, resp);
             } else {
                 req.setAttribute("message", "Product with such code is present. Try other code please");
@@ -58,5 +63,11 @@ public class CreateController extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         }
+    }
+
+    private List<EnclosureDTO> toEnclosureDTOList(List<Enclosure> enclosures) {
+        return enclosures.stream()
+                .map(EnclosureMapper::toEnclosureDTO)
+                .collect(Collectors.toList());
     }
 }

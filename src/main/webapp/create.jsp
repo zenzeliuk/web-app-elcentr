@@ -11,8 +11,6 @@
     <br>
     <input type="text" size="40" name="amount" placeholder="Input amount" required>
     <br>
-    <input type="text" size="40" name="ip" placeholder="Input IP">
-    <br>
     <input type="text" size="40" name="current" placeholder="Input In">
     <br>
     <input type="text" size="40" name="decimal" placeholder="Input decimal number">

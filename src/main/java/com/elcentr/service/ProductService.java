@@ -71,7 +71,6 @@ public class ProductService {
     }
 
     public String getCodeProduct() {
-        return "1";
-//        return String.valueOf(new Date().getTime());
+        return String.valueOf(new Date().getTime());
     }
 }
