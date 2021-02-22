@@ -22,7 +22,7 @@
 
 <br>
 <h3>
-    <a href="/web_app_elcentr_war/index.jsp">GO BACK!</a>
+    <a href="/index.jsp">GO BACK!</a>
 </h3>
 
 </body>

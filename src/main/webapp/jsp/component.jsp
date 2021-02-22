@@ -4,6 +4,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<h3>Please, select components for the product</h3>
 </body>
 </html>
