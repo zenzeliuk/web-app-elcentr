@@ -5,7 +5,7 @@
     <title>Components</title>
 </head>
 <body>
-<h2><c:out value="Product ${productName} with code ${productCode} saved"/></h2>
+<h2><c:out value="Product ${name} with code ${code} saved"/></h2>
 
 <h3>Please, select components for the product</h3>
 

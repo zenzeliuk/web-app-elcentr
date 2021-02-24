@@ -2,17 +2,18 @@ package com.elcentr.service;
 
 import com.elcentr.dao.OrderDAO;
 import com.elcentr.model.Order;
-import lombok.RequiredArgsConstructor;
+
+import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-@RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderDAO orderDAO;
+    private static final Logger LOG = Logger.getLogger(OrderService.class.getName());
 
     public Order save(Order order) {
+        OrderDAO orderDAO = new OrderDAO();
         if (nonNull(order.getId())) {
             throw new RuntimeException("Creation is failed!");
         }
@@ -20,6 +21,7 @@ public class OrderService {
     }
 
     public Order update(Order order) {
+        OrderDAO orderDAO = new OrderDAO();
         if (isNull(order.getId())) {
             throw new RuntimeException("Update is failed!");
         }
@@ -27,6 +29,7 @@ public class OrderService {
     }
 
     public Order read(Order order) {
+        OrderDAO orderDAO = new OrderDAO();
         if (isNull(order)) {
             throw new RuntimeException("Search is failed!");
         }
@@ -34,6 +37,7 @@ public class OrderService {
     }
 
     public void delete(Order order) {
+        OrderDAO orderDAO = new OrderDAO();
         if (isNull(order.getId())) {
             throw new RuntimeException("Delete is failed!");
         }

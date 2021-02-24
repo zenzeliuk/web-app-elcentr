@@ -2,17 +2,18 @@ package com.elcentr.service;
 
 import com.elcentr.dao.CustomerDAO;
 import com.elcentr.model.Customer;
-import lombok.RequiredArgsConstructor;
+
+import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-@RequiredArgsConstructor
 public class CustomerService {
 
-    private final CustomerDAO customerDAO;
+    private static final Logger LOG = Logger.getLogger(CustomerService.class.getName());
 
     public Customer save(Customer customer) {
+        CustomerDAO customerDAO = new CustomerDAO();
         if (nonNull(customer.getId())) {
             throw new RuntimeException("Creation is failed!");
         }
@@ -20,6 +21,7 @@ public class CustomerService {
     }
 
     public Customer update(Customer customer) {
+        CustomerDAO customerDAO = new CustomerDAO();
         if (isNull(customer.getId())) {
             throw new RuntimeException("Update is failed!");
         }
@@ -27,6 +29,7 @@ public class CustomerService {
     }
 
     public Customer read(Customer customer) {
+        CustomerDAO customerDAO = new CustomerDAO();
         if (isNull(customer)) {
             throw new RuntimeException("Search is failed!");
         }
@@ -34,6 +37,7 @@ public class CustomerService {
     }
 
     public void delete(Customer customer) {
+        CustomerDAO customerDAO = new CustomerDAO();
         if (isNull(customer.getId())) {
             throw new RuntimeException("Delete is failed!");
         }

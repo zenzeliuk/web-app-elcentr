@@ -2,7 +2,6 @@ package com.elcentr.service;
 
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Product;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,13 +12,12 @@ import java.util.logging.Logger;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-@RequiredArgsConstructor
 public class ProductService {
 
     private static final Logger LOG = Logger.getLogger(ProductService.class.getName());
-    private final ProductDAO productDAO;
 
     public Optional<Product> save(Product product) {
+        ProductDAO productDAO = new ProductDAO();
         if (nonNull(product.getId())) {
             throw new RuntimeException("Creation is failed!");
         }
@@ -30,6 +28,7 @@ public class ProductService {
     }
 
     public Product update(Product product) {
+        ProductDAO productDAO = new ProductDAO();
         if (isNull(product.getId())) {
             throw new RuntimeException("Update is failed!");
         }
@@ -37,6 +36,7 @@ public class ProductService {
     }
 
     public Product read(Product product) {
+        ProductDAO productDAO = new ProductDAO();
         if (isNull(product)) {
             throw new RuntimeException("Search is failed!");
         }
@@ -44,12 +44,12 @@ public class ProductService {
     }
 
     public void delete(Product product) {
+        ProductDAO productDAO = new ProductDAO();
         if (isNull(product.getId())) {
             throw new RuntimeException("Delete is failed!");
         }
         productDAO.delete(product);
     }
-
 
     public List<Product> findAll() {
         try {
@@ -62,6 +62,7 @@ public class ProductService {
     }
 
     public List<Product> findAllByCode(String code) {
+        ProductDAO productDAO = new ProductDAO();
         try {
             return productDAO.findAllByCode(code);
         } catch (Exception e) {
@@ -70,7 +71,10 @@ public class ProductService {
         return new ArrayList<>();
     }
 
-    public String getCodeProduct() {
+    public String createCodeProduct() {
         return String.valueOf(new Date().getTime());
     }
+
 }
+
+

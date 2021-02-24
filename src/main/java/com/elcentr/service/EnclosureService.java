@@ -1,10 +1,7 @@
 package com.elcentr.service;
 
 import com.elcentr.dao.EnclosureDAO;
-import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Enclosure;
-import com.elcentr.model.Product;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +10,12 @@ import java.util.logging.Logger;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-@RequiredArgsConstructor
 public class EnclosureService {
 
     private static final Logger LOG = Logger.getLogger(EnclosureService.class.getName());
-    private final EnclosureDAO enclosureDAO;
 
     public Enclosure save(Enclosure enclosure) {
+        EnclosureDAO enclosureDAO = new EnclosureDAO();
         if (nonNull(enclosure.getId())) {
             throw new RuntimeException("Creation is failed!");
         }
@@ -27,6 +23,7 @@ public class EnclosureService {
     }
 
     public Enclosure update(Enclosure enclosure) {
+        EnclosureDAO enclosureDAO = new EnclosureDAO();
         if (isNull(enclosure.getId())) {
             throw new RuntimeException("Update is failed!");
         }
@@ -34,6 +31,7 @@ public class EnclosureService {
     }
 
     public Enclosure read(Enclosure enclosure) {
+        EnclosureDAO enclosureDAO = new EnclosureDAO();
         if (isNull(enclosure)) {
             throw new RuntimeException("Search is failed!");
         }
@@ -41,12 +39,12 @@ public class EnclosureService {
     }
 
     public void delete(Enclosure enclosure) {
+        EnclosureDAO enclosureDAO = new EnclosureDAO();
         if (isNull(enclosure.getId())) {
             throw new RuntimeException("Delete is failed!");
         }
         enclosureDAO.delete(enclosure);
     }
-
 
     public List<Enclosure> findAll() {
         try {

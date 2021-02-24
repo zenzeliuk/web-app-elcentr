@@ -10,14 +10,14 @@ public class EnclosureMapper {
                 .manufacturer(enclosure.getManufacturer())
                 .code(enclosure.getCode())
                 .name(enclosure.getName())
-                .typeOfInstallation(enclosure.getTypeOfInstallation())
-                .category(enclosure.getCategory())
-                .color(enclosure.getColor())
-                .indexProtection(enclosure.getIndexProtection().toString())
-                .material(enclosure.getMaterial())
-                .depth(enclosure.getDepth().toString())
-                .height(enclosure.getHeight().toString())
-                .width(enclosure.getWidth().toString())
+//                .typeOfInstallation(enclosure.getTypeOfInstallation())
+//                .category(enclosure.getCategory())
+//                .color(enclosure.getColor())
+//                .indexProtection(enclosure.getIndexProtection().toString())
+//                .material(enclosure.getMaterial())
+//                .depth(enclosure.getDepth().toString())
+//                .height(enclosure.getHeight().toString())
+//                .width(enclosure.getWidth().toString())
                 .build();
     }
 }
