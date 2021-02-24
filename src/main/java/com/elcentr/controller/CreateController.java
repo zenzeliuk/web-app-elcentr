@@ -64,7 +64,7 @@ public class CreateController extends HttpServlet {
                 req.setAttribute("name", savedProduct.getName());
                 req.setAttribute("current", savedProduct.getNominalCurrent());
                 req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));
-                dispatcher = req.getRequestDispatcher("/jsp/components-product.jsp");
+                dispatcher = req.getRequestDispatcher("/jsp/product-components.jsp");
                 dispatcher.forward(req, resp);
             } else {
                 req.setAttribute("error", "The product could not be saved. Try again please");

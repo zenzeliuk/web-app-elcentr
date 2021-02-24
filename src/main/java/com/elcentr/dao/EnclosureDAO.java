@@ -16,7 +16,7 @@ public class EnclosureDAO extends BaseDAO<Enclosure> {
         String sql = "" +
                 "SELECT * " +
                 "FROM enclosures";
-        Query query = session.createNativeQuery(sql, Product.class);
+        Query query = session.createNativeQuery(sql, Enclosure.class);
         List<Enclosure> result = query.getResultList();
         session.close();
         return result;

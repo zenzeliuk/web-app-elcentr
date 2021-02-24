@@ -1,8 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Components</title>
+    <title>Product components</title>
 </head>
 <body>
 <h2><c:out value="Product ${name} with code ${code} saved"/></h2>
@@ -17,11 +16,11 @@
         <th>NAME</th>
     </tr>
     <c:forEach items="${enclosures}" var="enclosure">
-        <form action="component", method="get">
+        <form action="add-enclosure", method="post">
             <tr>
-                <input type="text" name="action" value="addEnclosureToProduct" hidden/>
-                <input type="text" name="enclosureId" value="${enclosure.id}" hidden/>
-                <input type="text" name="productId" value="${productId}" hidden/>
+<%--                <input type="text" name="action" value="addEnclosureToProduct" hidden/>--%>
+<%--                <input type="text" name="enclosureId" value="${enclosure.id}" hidden/>--%>
+<%--                <input type="text" name="productId" value="${productId}" hidden/>--%>
                 <td><c:out value="${enclosure.manufacturer}"/></td>
                 <td><c:out value="${enclosure.code}"/></td>
                 <td><c:out value="${enclosure.name}"/></td>
