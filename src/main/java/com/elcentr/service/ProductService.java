@@ -3,10 +3,9 @@ package com.elcentr.service;
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Product;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -72,8 +71,27 @@ public class ProductService {
     }
 
     public String createCodeProduct() {
-        return String.valueOf(new Date().getTime());
+        String code;
+
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        String year = String.valueOf(cal.get(Calendar.YEAR));
+        String month = String.valueOf(cal.get(Calendar.MONTH));
+        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+
+        String number = ProductService.getNumberByDateForCode();
+
+        code = year + " " + day + " " + month + " " + number;
+
+        return code;
     }
+
+    private static String getNumberByDateForCode() {
+        return "01";
+    }
+
 
 }
 

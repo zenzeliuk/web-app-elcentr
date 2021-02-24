@@ -1,15 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Creation page</title>
 </head>
-
 <body>
-<h2><c:out value="${error}"/></h2>
+
+<h2>${error}</h2>
 
 <br><h3><a href="/index.jsp">GO START PAGE!</a></h3><br>
 
-<form action="create" method="post">
+<form action="create-product" method="post">
 
     <label for="name">Name product:</label>
     <input id="name" type="text" name="name" required>

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = "/create")
+@WebServlet(urlPatterns = "/create-product")
 public class CreateController extends HttpServlet {
 
     @Override
@@ -44,7 +44,7 @@ public class CreateController extends HttpServlet {
         if (name == null || amount == null || current == null || name.isBlank() || amount.isBlank() || current.isBlank()) {
             error = "One of more of the input boxes were blank. Try again.";
             req.setAttribute("error", error);
-            dispatcher = req.getRequestDispatcher("/create.jsp");
+            dispatcher = req.getRequestDispatcher("/create-product.jsp");
             dispatcher.forward(req, resp);
         } else {
             Product product = Product.builder()
@@ -68,7 +68,7 @@ public class CreateController extends HttpServlet {
                 dispatcher.forward(req, resp);
             } else {
                 req.setAttribute("error", "The product could not be saved. Try again please");
-                dispatcher = req.getRequestDispatcher("/create.jsp");
+                dispatcher = req.getRequestDispatcher("/create-product.jsp");
                 dispatcher.forward(req, resp);
             }
 
