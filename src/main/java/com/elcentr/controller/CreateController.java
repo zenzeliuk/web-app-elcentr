@@ -59,8 +59,12 @@ public class CreateController extends HttpServlet {
             Optional<Product> optProduct = productService.save(product);
             if (optProduct.isPresent()) {
                 Product savedProduct = optProduct.get();
+
+                String[] codeArr = savedProduct.getCode().split(" ");
+                String code = codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
+
                 req.setAttribute("id", savedProduct.getId());
-                req.setAttribute("code", savedProduct.getCode());
+                req.setAttribute("code", code);
                 req.setAttribute("name", savedProduct.getName());
                 req.setAttribute("current", savedProduct.getNominalCurrent());
                 req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));

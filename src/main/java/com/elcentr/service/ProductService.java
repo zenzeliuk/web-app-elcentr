@@ -3,8 +3,6 @@ package com.elcentr.service;
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Product;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -71,27 +69,48 @@ public class ProductService {
     }
 
     public String createCodeProduct() {
-        String code;
+        ProductService productService = new ProductService();
+        List<Product> products = productService.findAll();
+        List<String> codesProduct = new ArrayList<>();
+        for (Product product : products) {
+            codesProduct.add(product.getCode());
+        }
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+        Integer year = cal.get(Calendar.YEAR);
+        Integer month = cal.get(Calendar.MONTH) + 1;
+        Integer day = cal.get(Calendar.DAY_OF_MONTH);
 
-        String year = String.valueOf(cal.get(Calendar.YEAR));
-        String month = String.valueOf(cal.get(Calendar.MONTH));
-        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        Integer maxNumberByDate = 0;
 
-        String number = ProductService.getNumberByDateForCode();
+        for (String codeProduct : codesProduct) {
+            String[] codeStr = codeProduct.split(" ");
+            if (codeStr.length == 4) {
+                if (Integer.parseInt(codeStr[0]) == year && Integer.parseInt(codeStr[1]) == month && Integer.parseInt(codeStr[2]) == day) {
+                    Integer num = Integer.parseInt(codeStr[3]);
+                    if (num >= maxNumberByDate) {
+                        maxNumberByDate = num;
+                    }
+                }
+            }
+        }
 
-        code = year + " " + day + " " + month + " " + number;
+        String newCode = year + " " + ProductService.checkFormat(month) + " " + ProductService.checkFormat(day) + " " + ProductService.checkFormat(maxNumberByDate + 1);
 
-        return code;
+        return newCode;
     }
 
-    private static String getNumberByDateForCode() {
-        return "01";
+    public static String checkFormat(Integer num) {
+        String checkNum;
+        if (Integer.toString(num).length() == 1) {
+            checkNum = "0" + num;
+        } else {
+            checkNum = String.valueOf(num);
+        }
+        return checkNum;
     }
-
 
 }
 
