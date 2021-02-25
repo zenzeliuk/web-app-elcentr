@@ -22,7 +22,8 @@
     <label for="decimal">Decimal number:</label>
     <input id="decimal" type="text">
 
-    <input type="submit" value="Create">
+    <button type="submit">Create</button>
+<%--    <input type="submit" value="Create">--%>
 
 </form>
 </body>

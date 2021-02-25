@@ -7,6 +7,12 @@
 
 <h2>Product ${name} with code ${code} saved</h2>
 
+<div>
+    <form action="component">
+
+    </form>
+</div>
+
 <h3>Please, select components for the product</h3>
 
 <table>
@@ -17,13 +23,13 @@
         <th>NAME</th>
     </tr>
     <c:forEach items="${enclosures}" var="enclosure">
-        <form action="add-enclosure", method="post">
+        <form action="product-enclosure" , method="post">
             <tr>
-
+                <input type="text" name="enclosureId" value="${enclosure.id}" hidden/>
                 <td><c:out value="${enclosure.manufacturer}"/></td>
                 <td><c:out value="${enclosure.code}"/></td>
                 <td><c:out value="${enclosure.name}"/></td>
-                <td><input type="text" name="amount" size="3"></td>
+                <td><input type="number" name="amount" size="4"></td>
                 <td><input type="submit" value="ADD"></td>
 
                     <%--                <input type="text" name="action" value="addEnclosureToProduct" hidden/>--%>
