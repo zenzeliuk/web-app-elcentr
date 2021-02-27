@@ -68,6 +68,16 @@ public class ProductService {
         return new ArrayList<>();
     }
 
+    public Optional<Product> findById(Integer id){
+        ProductDAO productDAO = new ProductDAO();
+        try {
+            return Optional.of(productDAO.findById(id));
+        } catch (Exception e) {
+            LOG.severe(String.format("Product with id %d was not found", id));
+        }
+        return Optional.empty();
+    }
+
     public String createCodeProduct() {
         ProductService productService = new ProductService();
         List<Product> products = productService.findAll();

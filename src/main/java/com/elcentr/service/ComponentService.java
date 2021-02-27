@@ -1,8 +1,11 @@
 package com.elcentr.service;
 
 import com.elcentr.dao.ComponentDAO;
+import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -44,4 +47,14 @@ public class ComponentService {
         componentDAO.delete(component);
     }
 
+
+    public List<Component> findAllByIdProduct(Integer id) {
+        ComponentDAO componentDAO = new ComponentDAO();
+        try {
+            return componentDAO.findAllByIdProduct(id);
+        } catch (Exception e) {
+            LOG.severe(String.format("Any component with code %d was not found", id));
+        }
+        return new ArrayList<>();
+    }
 }

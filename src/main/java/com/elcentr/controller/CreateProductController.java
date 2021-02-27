@@ -6,6 +6,7 @@ import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
 import com.elcentr.service.EnclosureService;
 import com.elcentr.service.ProductService;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,20 +24,18 @@ import java.util.stream.Collectors;
 public class CreateProductController extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
         ProductService productService = new ProductService();
-        EnclosureService enclosureService = new EnclosureService();
         RequestDispatcher dispatcher;
 
-        String codeProduct = productService.createCodeProduct();
         Long timeRegistration = new Date().getTime();
         String name = req.getParameter("name");
         String amount = req.getParameter("amount");
-        String current =req.getParameter("current");
+        String current = req.getParameter("current");
         String decimal = req.getParameter("decimal");
 
         String error;
@@ -44,11 +43,11 @@ public class CreateProductController extends HttpServlet {
         if (name == null || amount == null || current == null || name.isBlank() || amount.isBlank() || current.isBlank()) {
             error = "One of more of the input boxes were blank. Try again.";
             req.setAttribute("error", error);
-            dispatcher = req.getRequestDispatcher("/create-product.jsp");
+            dispatcher = req.getRequestDispatcher("/jsp/create-product.jsp");
             dispatcher.forward(req, resp);
         } else {
             Product product = Product.builder()
-                    .code(codeProduct)
+                    .code(productService.createCodeProduct())
                     .timeRegistration(timeRegistration)
                     .name(name)
                     .amount(Integer.parseInt(amount))
@@ -59,15 +58,10 @@ public class CreateProductController extends HttpServlet {
             Optional<Product> optProduct = productService.save(product);
             if (optProduct.isPresent()) {
                 Product savedProduct = optProduct.get();
-
                 String[] codeArr = savedProduct.getCode().split(" ");
                 String code = codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
-
-                req.setAttribute("id", savedProduct.getId());
-                req.setAttribute("code", code);
-                req.setAttribute("name", savedProduct.getName());
-                req.setAttribute("current", savedProduct.getNominalCurrent());
-                req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));
+                req.setAttribute("messageSave", String.format("Product %s with code %s saved", savedProduct.getName(), code));
+                req.setAttribute("productId", savedProduct.getId());
                 dispatcher = req.getRequestDispatcher("/jsp/product-components.jsp");
                 dispatcher.forward(req, resp);
             } else {
@@ -79,9 +73,5 @@ public class CreateProductController extends HttpServlet {
         }
     }
 
-    private List<EnclosureDTO> toEnclosureDTOList(List<Enclosure> enclosures) {
-        return enclosures.stream()
-                .map(EnclosureMapper::toEnclosureDTO)
-                .collect(Collectors.toList());
-    }
+
 }
