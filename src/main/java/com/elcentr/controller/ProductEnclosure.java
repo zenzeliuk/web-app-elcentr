@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
-@WebServlet(urlPatterns = "/add-product-enclosure")
-public class AddProductEnclosure extends HttpServlet {
+@WebServlet(urlPatterns = "/product-enclosure")
+public class ProductEnclosure extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -49,9 +49,6 @@ public class AddProductEnclosure extends HttpServlet {
         req.setAttribute("componentEnclosures", componentEnclosureDTOList);
         dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
         dispatcher.forward(req, resp);
-
-        System.out.println(componentEnclosureDTOList.get(0));
-        System.out.println(componentEnclosureDTOList.get(1));
 
         //        if (optProduct.isPresent()) {
 //            error = "Product was not found";

@@ -13,9 +13,9 @@
 <h3>Please, select components for the product</h3>
 
 <div>
-    <form action="/add-product-enclosure">
+    <form action="/product-enclosure">
         <input type="text" name="productId" value="${productId}" hidden>
-        <input type="submit" value="ADD ENCLOSURE">
+        <input type="submit" value="PRODUCT ENCLOSURES">
     </form>
 </div>
 

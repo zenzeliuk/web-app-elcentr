@@ -5,7 +5,12 @@
 </head>
 <body>
 <h2>${messageInfoProduct}</h2>
-
+<div>
+    <form action="/product-component">
+        <input type="text" name="productId" value="${productId}" hidden>
+        <input type="submit" value="GO BACK">
+    </form>
+</div>
 <div>
     <table>
         Enclosures in product:
@@ -15,14 +20,14 @@
             <th>NAME</th>
         </tr>
         <c:forEach items="${componentEnclosures}" var="enclosure">
-<%--            <form action="/product-enclosure-delete" , method="get">--%>
+            <form action="/product-enclosure-delete" , method="get">
                 <tr>
                     <td><c:out value="${enclosure.enclosureManufacturer}"/></td>
                     <td><c:out value="${enclosure.enclosureCode}"/></td>
                     <td><c:out value="${enclosure.enclosureName}"/></td>
                     <td><input type="submit" value="DELETE"></td>
                 </tr>
-<%--            </form>--%>
+            </form>
         </c:forEach>
     </table>
 </div>
