@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ComponentEnclosureDTO {
 
+    private String componentId;
     private String enclosureManufacturer;
     private String enclosureName;
     private String enclosureCode;
+    private String enclosureAmount;
 
 }

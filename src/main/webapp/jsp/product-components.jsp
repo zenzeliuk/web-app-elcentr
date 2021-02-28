@@ -5,18 +5,48 @@
 </head>
 <body>
 
-<h2>${error}</h2>
 <h2>${messageSave}</h2>
-<h2>${messageInfoProduct}</h2>
+<h2>${messageProduct}</h2>
 
-
-<h3>Please, select components for the product</h3>
 
 <div>
     <form action="/product-enclosure">
-        <input type="text" name="productId" value="${productId}" hidden>
-        <input type="submit" value="PRODUCT ENCLOSURES">
+        <input type="submit" value="ADD ENCLOSURES">
     </form>
+</div>
+
+<div>
+    <form action="/product-customer">
+        <input type="text" name="productId" value="${productId}" hidden>
+        <input type="submit" value="ADD CUSTOMER">
+    </form>
+</div>
+<div>
+    <form action="/product-complex">
+        <input type="text" name="productId" value="${productId}" hidden>
+        <input type="submit" value="ADD RESIDENTIAL COMPLEX">
+    </form>
+</div>
+
+<div>
+    <table>
+        Enclosures in product:
+        <tr>
+            <th>MANUFACTURE</th>
+            <th>CODE</th>
+            <th>NAME</th>
+        </tr>
+        <c:forEach items="${componentEnclosures}" var="enclosure">
+            <form action="/product-enclosure-delete">
+                <tr>
+                    <td><c:out value="${enclosure.enclosureManufacturer}"/></td>
+                    <td><c:out value="${enclosure.enclosureCode}"/></td>
+                    <td><c:out value="${enclosure.enclosureName}"/></td>
+                    <td><input type="submit" value="DELETE"></td>
+                </tr>
+            </form>
+        </c:forEach>
+    </table>
 </div>
 
 

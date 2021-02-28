@@ -5,6 +5,7 @@ import com.elcentr.model.Enclosure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -55,4 +56,15 @@ public class EnclosureService {
         }
         return new ArrayList<>();
     }
+
+    public Optional<Enclosure> findById(Integer id) {
+        EnclosureDAO enclosureDAO = new EnclosureDAO();
+        try {
+            return Optional.of(enclosureDAO.findById(id));
+        } catch (Exception e) {
+            LOG.severe(String.format("Enclosure with id %d was not found", id));
+        }
+        return Optional.empty();
+    }
+
 }

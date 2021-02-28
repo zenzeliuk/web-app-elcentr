@@ -15,7 +15,7 @@
     <input id="name" type="text" name="name" required><br>
 
     <label for="amount">Amount:</label>
-    <input id="amount" type="number" name="amount" min="1" max="1000" required><br>
+    <input id="amount" type="number" name="amount" min="1" required><br>
 
     <label for="current">Nominal current:</label>
     <input id="current" type="number" name="current" min="0" max="6300" required><br>

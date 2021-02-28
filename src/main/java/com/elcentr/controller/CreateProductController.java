@@ -1,12 +1,7 @@
 package com.elcentr.controller;
 
-import com.elcentr.controller.dto.EnclosureDTO;
-import com.elcentr.controller.mapper.EnclosureMapper;
-import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.EnclosureService;
 import com.elcentr.service.ProductService;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,11 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @WebServlet(urlPatterns = "/create-product")
 public class CreateProductController extends HttpServlet {
@@ -29,15 +25,20 @@ public class CreateProductController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
+        HttpSession session = req.getSession();
         ProductService productService = new ProductService();
         RequestDispatcher dispatcher;
+
+        if (nonNull(session.getAttribute("productIdNew"))) {
+            session.setAttribute("productIdNew", null);
+            resp.sendRedirect("/jsp/create-product.jsp");
+        }
 
         Long timeRegistration = new Date().getTime();
         String name = req.getParameter("name");
         String amount = req.getParameter("amount");
         String current = req.getParameter("current");
         String decimal = req.getParameter("decimal");
-
         String error;
 
         if (name == null || amount == null || current == null || name.isBlank() || amount.isBlank() || current.isBlank()) {
@@ -57,21 +58,14 @@ public class CreateProductController extends HttpServlet {
 
             Optional<Product> optProduct = productService.save(product);
             if (optProduct.isPresent()) {
-                Product savedProduct = optProduct.get();
-                String[] codeArr = savedProduct.getCode().split(" ");
-                String code = codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
-                req.setAttribute("messageSave", String.format("Product %s with code %s saved", savedProduct.getName(), code));
-                req.setAttribute("productId", savedProduct.getId());
-                dispatcher = req.getRequestDispatcher("/jsp/product-components.jsp");
-                dispatcher.forward(req, resp);
+                session.setAttribute("productIdNew", optProduct.get().getId());
+                session.setAttribute("productId", null);
+                resp.sendRedirect("/product");
             } else {
                 req.setAttribute("error", "The product could not be saved. Try again please");
-                dispatcher = req.getRequestDispatcher("/create-product.jsp");
+                dispatcher = req.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(req, resp);
             }
-
         }
     }
-
-
 }

@@ -4,28 +4,60 @@
     <title>Add product enclosures</title>
 </head>
 <body>
-<h2>${messageInfoProduct}</h2>
+<h2>${error}</h2>
+<h2>${messageProduct}</h2>
+<h2>${messageProductEnclosure}</h2>
+
 <div>
-    <form action="/product-component">
-        <input type="text" name="productId" value="${productId}" hidden>
+    <form action="/product">
         <input type="submit" value="GO BACK">
     </form>
 </div>
+
 <div>
     <table>
-        Enclosures in product:
+        <h2>Enclosures in product:</h2>
         <tr>
             <th>MANUFACTURE</th>
             <th>CODE</th>
             <th>NAME</th>
+            <th>AMOUNT</th>
         </tr>
-        <c:forEach items="${componentEnclosures}" var="enclosure">
-            <form action="/product-enclosure-delete" , method="get">
+        <c:forEach items="${componentEnclosures}" var="component">
+            <form action="/product-enclosure-button-delete">
                 <tr>
-                    <td><c:out value="${enclosure.enclosureManufacturer}"/></td>
-                    <td><c:out value="${enclosure.enclosureCode}"/></td>
-                    <td><c:out value="${enclosure.enclosureName}"/></td>
+                    <input type="text" name="componentId" value="${component.componentId}" hidden>
+                    <input type="text" name="productId" value="${productId}" hidden>
+                    <td><c:out value="${component.enclosureManufacturer}"/></td>
+                    <td><c:out value="${component.enclosureCode}"/></td>
+                    <td><c:out value="${component.enclosureName}"/></td>
+                    <td><c:out value="${component.enclosureAmount}"/></td>
                     <td><input type="submit" value="DELETE"></td>
+                </tr>
+            </form>
+        </c:forEach>
+    </table>
+</div>
+<br>
+<div>
+    <table>
+        <h3>List enclosures:</h3>
+        <tr>
+            <th>MANUFACTURE</th>
+            <th>CODE</th>
+            <th>NAME</th>
+            <th>AMOUNT</th>
+        </tr>
+        <c:forEach items="${enclosures}" var="enclosure">
+            <form action="/product-enclosure-button-add">
+                <tr>
+                    <input type="text" name="enclosureId" value="${enclosure.id}" hidden>
+                    <input type="text" name="productId" value="${productId}" hidden>
+                    <td><c:out value="${enclosure.manufacturer}"/></td>
+                    <td><c:out value="${enclosure.code}"/></td>
+                    <td><c:out value="${enclosure.name}"/></td>
+                    <td><input type="number" name="amount" min="1" required></td>
+                    <td><input type="submit" value="ADD"></td>
                 </tr>
             </form>
         </c:forEach>

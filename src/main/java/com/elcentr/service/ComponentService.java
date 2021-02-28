@@ -1,11 +1,13 @@
 package com.elcentr.service;
 
 import com.elcentr.dao.ComponentDAO;
+import com.elcentr.dao.EnclosureDAO;
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -56,5 +58,15 @@ public class ComponentService {
             LOG.severe(String.format("Any component with code %d was not found", id));
         }
         return new ArrayList<>();
+    }
+
+    public Optional<Component> findById(Integer id) {
+        ComponentDAO componentDAO = new ComponentDAO();
+        try {
+            return Optional.of(componentDAO.findById(id));
+        } catch (Exception e) {
+            LOG.severe(String.format("Component with id %d was not found", id));
+        }
+        return Optional.empty();
     }
 }

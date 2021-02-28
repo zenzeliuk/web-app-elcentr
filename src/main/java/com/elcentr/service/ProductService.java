@@ -68,7 +68,7 @@ public class ProductService {
         return new ArrayList<>();
     }
 
-    public Optional<Product> findById(Integer id){
+    public Optional<Product> findById(Integer id) {
         ProductDAO productDAO = new ProductDAO();
         try {
             return Optional.of(productDAO.findById(id));
@@ -122,6 +122,11 @@ public class ProductService {
         return checkNum;
     }
 
+    public String getCodeProduct(Product product) {
+        String[] codeArr = product.getCode().split(" ");
+        String code = codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
+        return code;
+    }
 }
 
 

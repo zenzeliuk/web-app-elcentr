@@ -4,7 +4,8 @@
 </head>
 <body>
 
-<br><h2>${message}</h2>
+<p>${messageProduct}</p>
+<p>${error}</p>
 
 <h3><a href="/jsp/create-product.jsp">CREATE NEW PRODUCT</a></h3>
 
