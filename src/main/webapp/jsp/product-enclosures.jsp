@@ -1,10 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Add product enclosures</title>
+    <title>Product enclosures</title>
 </head>
 <body>
-<h2>${error}</h2>
+
 <h2>${messageProduct}</h2>
 <h2>${messageProductEnclosure}</h2>
 
@@ -39,6 +39,27 @@
     </table>
 </div>
 <br>
+
+<div>
+    <form action="/enclosure-button-create">
+        <h2>Create enclosures:</h2>
+
+        <input type="text" name="productId" value="${productId}" hidden>
+
+        <label for="manufacture">MANUFACTURE:</label>
+        <input id="manufacture" type="text" name="manufacture">
+
+        <label for="code">CODE:</label>
+        <input id="code" type="text" name="code">
+
+        <label for="name">NAME:</label>
+        <input id="name" type="text" name="name" required>
+
+        <input type="submit" value="CREATE">
+    </form>
+</div>
+<br>
+
 <div>
     <table>
         <h3>List enclosures:</h3>

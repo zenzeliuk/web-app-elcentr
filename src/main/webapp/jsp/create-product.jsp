@@ -9,7 +9,7 @@
 <br>
 <h3><a href="/index.jsp">GO START PAGE!</a></h3><br>
 
-<form action="/create-product" method="get">
+<form action="/create-product">
 
     <label for="name">Name product:</label>
     <input id="name" type="text" name="name" required><br>

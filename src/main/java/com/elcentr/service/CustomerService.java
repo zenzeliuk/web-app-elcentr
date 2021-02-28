@@ -1,8 +1,11 @@
 package com.elcentr.service;
 
 import com.elcentr.dao.CustomerDAO;
+import com.elcentr.dao.EnclosureDAO;
 import com.elcentr.model.Customer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -44,4 +47,13 @@ public class CustomerService {
         customerDAO.delete(customer);
     }
 
+    public List<Customer> findAll() {
+        try {
+            CustomerDAO customerDAO = new CustomerDAO();
+            return customerDAO.findAll();
+        } catch (Exception e) {
+            LOG.severe("Any customer was not found");
+        }
+        return new ArrayList<>();
+    }
 }

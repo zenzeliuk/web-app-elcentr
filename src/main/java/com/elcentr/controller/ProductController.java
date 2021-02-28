@@ -29,7 +29,7 @@ public class ProductController extends HttpServlet {
         if (optProduct.isPresent()) {
             Product product = optProduct.get();
             req.setAttribute("messageProduct", String.format("Product %s with code %s", product.getName(), productService.getCodeProduct(product)));
-            dispatcher = req.getRequestDispatcher("/jsp/product-components.jsp");
+            dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
         } else {
             Optional<Product> optNewProduct = productService.findById((Integer) session.getAttribute("productIdNew"));
             if (optNewProduct.isPresent()) {
@@ -38,7 +38,7 @@ public class ProductController extends HttpServlet {
                 req.setAttribute("messageSave", String.format("Product %s with code %s saved", savedProduct.getName(), code));
                 session.setAttribute("productId", session.getAttribute("productIdNew"));
                 session.setAttribute("productIdNew", null);
-                dispatcher = req.getRequestDispatcher("/jsp/product-components.jsp");
+                dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
             } else {
                 req.setAttribute("error", "The product not found. Try again please");
                 session.setAttribute("productIdNew", null);

@@ -3,6 +3,8 @@ package com.elcentr.service;
 import com.elcentr.dao.ResidentialComplexDAO;
 import com.elcentr.model.ResidentialComplex;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -44,4 +46,13 @@ public class ResidentialComplexService {
         residentialComplexDAO.delete(residentialComplex);
     }
 
+    public List<ResidentialComplex> findAll() {
+        try {
+            ResidentialComplexDAO residentialComplexDAO = new ResidentialComplexDAO();
+            return residentialComplexDAO.findAll();
+        } catch (Exception e) {
+            LOG.severe("Any residential complex was not found");
+        }
+        return new ArrayList<>();
+    }
 }
