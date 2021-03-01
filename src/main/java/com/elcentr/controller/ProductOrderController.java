@@ -53,14 +53,13 @@ public class ProductOrderController extends HttpServlet {
             req.setAttribute("customers", toCustomerDTOList(customerService.findAll()));
             req.setAttribute("complex", toComplexDTOList(complexService.findAll()));
             dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");
-            dispatcher.forward(req, resp);
         } else {
             req.setAttribute("error", "The product not found. Try again please");
             session.setAttribute("productIdNew", null);
             session.setAttribute("productId", null);
             dispatcher = req.getRequestDispatcher("/index.jsp");
         }
-
+        dispatcher.forward(req, resp);
 
     }
 
