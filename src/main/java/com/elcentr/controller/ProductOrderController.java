@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 @WebServlet(urlPatterns = "/product-order")
 public class ProductOrderController extends HttpServlet {
     @Override
@@ -53,16 +55,35 @@ public class ProductOrderController extends HttpServlet {
             String idCustomerInOrder = "";
             String idComplexInOrder = "";
 
-            if (orders != null) {
-                if (orders.get(0).getCustomer() != null) {
-                    nameCustomerInOrder = String.format("Customer: %s", orders.get(0).getCustomer().getName());
-                    idCustomerInOrder = String.format("ResidentialComplex: %s", orders.get(0).getCustomer().getId());
-                }
-                if (orders.get(0).getResidentialComplex() != null) {
-                    nameComplexInOrder = String.format("Customer: %s", orders.get(0).getResidentialComplex().getName());
-                    idComplexInOrder = String.format("ResidentialComplex: %s", orders.get(0).getResidentialComplex().getId());
-                }
+            Customer customer = null;
+            ResidentialComplex complex = null;
+
+            for (Order order : orders) {
+                customer = order.getCustomer();
+                complex = order.getResidentialComplex();
             }
+
+            if (customer != null){
+                nameCustomerInOrder = String.format("Customer: %s",customer.getName());
+                idCustomerInOrder = customer.getId().toString();
+            }
+
+            if (complex != null){
+                nameComplexInOrder = complex.getName();
+                idComplexInOrder = complex.getId().toString();
+            }
+
+
+//            if (orders != null) {
+//                if (orders.get(0).getCustomer() != null) {
+//                    nameCustomerInOrder = String.format("Customer: %s", orders.get(0).getCustomer().getName());
+//                    idCustomerInOrder = String.format("ResidentialComplex: %s", orders.get(0).getCustomer().getId());
+//                }
+//                if (orders.get(0).getResidentialComplex() != null) {
+//                    nameComplexInOrder = String.format("Customer: %s", orders.get(0).getResidentialComplex().getName());
+//                    idComplexInOrder = String.format("ResidentialComplex: %s", orders.get(0).getResidentialComplex().getId());
+//                }
+//            }
 
             req.setAttribute("productId", product.getId());
             req.setAttribute("messageProduct", String.format("Product %s with code %s", product.getName(), productService.getCodeProduct(product)));
