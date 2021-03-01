@@ -48,51 +48,24 @@ public class ProductOrderController extends HttpServlet {
         Optional<Product> optProduct = productService.findById((Integer) session.getAttribute("productId"));
         if (optProduct.isPresent()) {
             Product product = optProduct.get();
+
             List<Order> orders = orderService.findByIdProduct(product.getId());
+            List<OrderCustomerAndComplexDTO> orderCustomerAndComplexDTOList = toOrderCustomerAndComplexDTOList(orders);
 
-            String nameCustomerInOrder = "";
-            String nameComplexInOrder = "";
-            String idCustomerInOrder = "";
-            String idComplexInOrder = "";
-
-            Customer customer = null;
-            ResidentialComplex complex = null;
-
-            for (Order order : orders) {
-                customer = order.getCustomer();
-                complex = order.getResidentialComplex();
-            }
-
-            if (customer != null){
-                nameCustomerInOrder = String.format("Customer: %s",customer.getName());
-                idCustomerInOrder = customer.getId().toString();
-            }
-
-            if (complex != null){
-                nameComplexInOrder = complex.getName();
-                idComplexInOrder = complex.getId().toString();
-            }
-
-
-//            if (orders != null) {
-//                if (orders.get(0).getCustomer() != null) {
-//                    nameCustomerInOrder = String.format("Customer: %s", orders.get(0).getCustomer().getName());
-//                    idCustomerInOrder = String.format("ResidentialComplex: %s", orders.get(0).getCustomer().getId());
-//                }
-//                if (orders.get(0).getResidentialComplex() != null) {
-//                    nameComplexInOrder = String.format("Customer: %s", orders.get(0).getResidentialComplex().getName());
-//                    idComplexInOrder = String.format("ResidentialComplex: %s", orders.get(0).getResidentialComplex().getId());
-//                }
+//            String nameCustomerInOrder = null;
+//            String nameComplexInOrder = null;
+//            String idCustomerInOrder = null;
+//            String idComplexInOrder = null;
+//            for (OrderCustomerAndComplexDTO orderCustomerAndComplexDTO : orderCustomerAndComplexDTOList) {
+//                nameCustomerInOrder = orderCustomerAndComplexDTO.getCustomerName();
+//                nameComplexInOrder = orderCustomerAndComplexDTO.getComplexName();
+//                idCustomerInOrder = orderCustomerAndComplexDTO.getCustomerId();
+//                idComplexInOrder = orderCustomerAndComplexDTO.getComplexId();
 //            }
 
             req.setAttribute("productId", product.getId());
             req.setAttribute("messageProduct", String.format("Product %s with code %s", product.getName(), productService.getCodeProduct(product)));
-
-            req.setAttribute("nameCustomerInOrder", nameCustomerInOrder);
-            req.setAttribute("nameComplexInOrder", nameComplexInOrder);
-            req.setAttribute("idCustomerInOrder", idCustomerInOrder);
-            req.setAttribute("idComplexInOrder", idComplexInOrder);
-
+            req.setAttribute("orderDTO", orderCustomerAndComplexDTOList);
             req.setAttribute("customers", toCustomerDTOList(customerService.findAll()));
             req.setAttribute("complex", toComplexDTOList(complexService.findAll()));
             dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");
