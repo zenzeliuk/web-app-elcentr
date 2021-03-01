@@ -28,7 +28,7 @@ public class ProductController extends HttpServlet {
         Optional<Product> optProduct = productService.findById((Integer) session.getAttribute("productId"));
         if (optProduct.isPresent()) {
             Product product = optProduct.get();
-            req.setAttribute("messageProduct", String.format("Product %s with code %s", product.getName(), productService.getCodeProduct(product)));
+            req.setAttribute("infoProduct", productService.getInfoProduct(product));
             dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
         } else {
             Optional<Product> optNewProduct = productService.findById((Integer) session.getAttribute("productIdNew"));

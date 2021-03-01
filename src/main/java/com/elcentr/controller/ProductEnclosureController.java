@@ -44,7 +44,7 @@ public class ProductEnclosureController extends HttpServlet {
             Product product = optProduct.get();
             List<Component> allComponentsByIdProduct = componentService.findAllByIdProduct(product.getId());
             req.setAttribute("productId", product.getId());
-            req.setAttribute("messageProduct", String.format("Product %s with code %s", product.getName(), productService.getCodeProduct(product)));
+            req.setAttribute("infoProduct", productService.getInfoProduct(product));
             req.setAttribute("messageProductEnclosure", getMessage(toComponentEnclosureDTOList(allComponentsByIdProduct)));
             req.setAttribute("componentEnclosures", toComponentEnclosureDTOList(allComponentsByIdProduct));
             req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));

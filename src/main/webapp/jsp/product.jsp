@@ -6,7 +6,7 @@
 <body>
 
 <h2>${messageSave}</h2>
-<h2>${messageProduct}</h2>
+<h2>${infoProduct}</h2>
 
 <div>
     <form action="/product-enclosure">

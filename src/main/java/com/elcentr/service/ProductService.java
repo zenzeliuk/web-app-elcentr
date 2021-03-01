@@ -3,6 +3,7 @@ package com.elcentr.service;
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Product;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -123,9 +124,34 @@ public class ProductService {
     }
 
     public String getCodeProduct(Product product) {
-        String[] codeArr = product.getCode().split(" ");
-        String code = codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
-        return code;
+        String codeProduct = product.getCode();
+        try {
+            String[] codeArr = codeProduct.split(" ");
+            return codeArr[0] + codeArr[1] + codeArr[2] + codeArr[3];
+        } catch (RuntimeException e) {
+            LOG.severe("Non-standard product code");
+        }
+        return codeProduct;
+    }
+
+    public Product getProductInSessionOrReturnNull(HttpSession session) {
+        try {
+            Integer idProduct = (Integer) session.getAttribute("productId");
+            if (idProduct != null) {
+                Optional<Product> optProduct = findById(idProduct);
+                if (optProduct.isPresent())
+                    return optProduct.get();
+            }
+        } catch (RuntimeException e) {
+            LOG.severe("Product not found in session");
+        }
+        return null;
+    }
+
+    public String getInfoProduct(Product product) {
+        String infoProduct;
+        infoProduct = String.format("Product %s with code %s", product.getName(), getCodeProduct(product));
+        return infoProduct;
     }
 }
 

@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>${messageProduct}</h2>
+<h2>${infoProduct}</h2>
 <h2>${messageProductEnclosure}</h2>
 
 <div>
