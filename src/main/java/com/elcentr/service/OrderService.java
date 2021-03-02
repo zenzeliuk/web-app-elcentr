@@ -1,12 +1,9 @@
 package com.elcentr.service;
 
-import com.elcentr.dao.ComponentDAO;
 import com.elcentr.dao.OrderDAO;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -49,13 +46,13 @@ public class OrderService {
         orderDAO.delete(order);
     }
 
-    public List<Order> findByProduct(Product product) {
+    public Optional<Order> findByProduct(Product product) {
         OrderDAO orderDAO = new OrderDAO();
         try {
-            return orderDAO.findByIdProduct(product.getId());
+            return Optional.of(orderDAO.findByProduct(product));
         } catch (Exception e) {
             LOG.severe(String.format("Order with id product %d was not found", product.getId()));
         }
-        return new ArrayList<>();
+        return Optional.empty();
     }
 }

@@ -2,22 +2,24 @@ package com.elcentr.dao;
 
 import com.elcentr.model.Component;
 import com.elcentr.model.Order;
+import com.elcentr.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
 public class OrderDAO extends BaseDAO<Order> {
 
-    public List<Order> findByIdProduct(Integer id) {
-        List<Order> result;
-        if (isNull(id)) {
+    public Order findByProduct(Product product) {
+        if (isNull(product)) {
             throw new RuntimeException("findByIdProduct is failed!");
         }
+        Integer id = product.getId();
         SessionFactory sessionFactory = super.getPostgresSessionFactory().getHibernateSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -27,7 +29,7 @@ public class OrderDAO extends BaseDAO<Order> {
                 "JOIN products p ON p.id=o.product_id  " +
                 "WHERE product_id=?1 ", Order.class);
         query.setParameter(1, id);
-        result = query.getResultList();
+        Order result = (Order) query.getSingleResult();
         transaction.commit();
         session.close();
         return result;

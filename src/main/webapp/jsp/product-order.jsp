@@ -14,14 +14,11 @@
     </form>
 </div>
 
-<%--<div>--%>
-<%--    <c:forEach items="productCustomers" var="productCustomer">--%>
-<%--&lt;%&ndash;        <input type="text" name="productCustomerId" value="${productCustomer.id}">&ndash;%&gt;--%>
-<%--        <c:out value="${productCustomer.name}"/>--%>
-<%--        <c:out value="${productCustomer.notes}"/>--%>
-<%--        <input type="submit" value="DELETE">--%>
-<%--    </c:forEach>--%>
-<%--</div>--%>
+<form action="product-customer-delete">
+    <h2>${productCustomer}</h2>
+    <input type="submit" value="DELETE">
+</form>
+
 
 
 <%--<div>--%>
@@ -35,25 +32,25 @@
 <%--</div>--%>
 
 
-<br>
-<div>
-    <table>
-        <h2>Customer list</h2>
-        <tr>
-            <th>NAME</th>
-            <th>NOTES</th>
-        </tr>
-        <c:forEach items="${customers}" var="customer">
-            <tr>
-                <input type="text" name="customerId" value="${customer.id}" hidden>
-                <input type="text" name="productId" value="${productId}" hidden>
-                <td><c:out value="${customer.name}"/></td>
-                <td><c:out value="${customer.notes}"/></td>
-                <td><input type="submit" value="SELECT"></td>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
+<%--<br>--%>
+<%--<div>--%>
+<%--    <table>--%>
+<%--        <h2>Customer list</h2>--%>
+<%--        <tr>--%>
+<%--            <th>NAME</th>--%>
+<%--            <th>NOTES</th>--%>
+<%--        </tr>--%>
+<%--        <c:forEach items="${customers}" var="customer">--%>
+<%--            <tr>--%>
+<%--                <input type="text" name="customerId" value="${customer.id}" hidden>--%>
+<%--                <input type="text" name="productId" value="${productId}" hidden>--%>
+<%--                <td><c:out value="${customer.name}"/></td>--%>
+<%--                <td><c:out value="${customer.notes}"/></td>--%>
+<%--                <td><input type="submit" value="SELECT"></td>--%>
+<%--            </tr>--%>
+<%--        </c:forEach>--%>
+<%--    </table>--%>
+<%--</div>--%>
 
 </body>
 </html>
