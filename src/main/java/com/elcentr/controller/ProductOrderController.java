@@ -3,9 +3,11 @@ package com.elcentr.controller;
 import com.elcentr.controller.dto.ComplexDTO;
 import com.elcentr.controller.dto.CustomerDTO;
 import com.elcentr.controller.dto.OrderCustomerAndComplexDTO;
+import com.elcentr.controller.dto.ProductCustomerDTO;
 import com.elcentr.controller.mapper.ComplexMapper;
 import com.elcentr.controller.mapper.CustomerMapper;
 import com.elcentr.controller.mapper.OrderCustomerAndComplexMapper;
+import com.elcentr.controller.mapper.ProductCustomerMapper;
 import com.elcentr.model.Customer;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;
@@ -21,8 +23,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,41 +37,50 @@ public class ProductOrderController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
-        HttpSession session = req.getSession();
-
         ProductService productService = new ProductService();
         OrderService orderService = new OrderService();
         CustomerService customerService = new CustomerService();
         ResidentialComplexService complexService = new ResidentialComplexService();
         RequestDispatcher dispatcher;
 
-        Product product = productService.getProductInSessionOrReturnNull(session);
-        if (product != null) {
-            List<Order> orders = orderService.findByIdProduct(product.getId());
-            List<OrderCustomerAndComplexDTO> orderCustomerAndComplexDTOList = toOrderCustomerAndComplexDTOList(orders);
+        Product product = productService.getProductByRequestResponse(req, resp);
 
-            req.setAttribute("productId", product.getId());
-            req.setAttribute("infoProduct", productService.getInfoProduct(product));
-            req.setAttribute("orderDTO", orderCustomerAndComplexDTOList);
-            req.setAttribute("customers", toCustomerDTOList(customerService.findAll()));
-            req.setAttribute("complex", toComplexDTOList(complexService.findAll()));
-            dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");
-        } else {
-            req.setAttribute("error", "The product not found. Try again please");
-            session.setAttribute("productIdNew", null);
-            session.setAttribute("productId", null);
-            dispatcher = req.getRequestDispatcher("/index.jsp");
-        }
+        List<Order> productOrdersList = orderService.findByProduct(product);
+//        List<OrderCustomerAndComplexDTO> orderCustomerAndComplexDTOList = toOrderCustomerAndComplexDTOList(productOrders);
+
+        List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
+//        List<ComplexDTO> complexDTOList = toComplexDTOList(complexService.findAll());
+
+        List<ProductCustomerDTO> productCustomerDTOList = toProductCustomerDTO(productOrdersList);
+//        List<String> productComplexDTOList = null;
+
+        req.setAttribute("productId", product.getId());
+        req.setAttribute("infoProduct", productService.getInfoProduct(product));
+
+        req.setAttribute("productCustomers", productCustomerDTOList);
+//        req.setAttribute("productComplexes", productComplexDTOList);
+
+        req.setAttribute("customers", customerDTOList);
+//        req.setAttribute("complexes", complexDTOList);
+        dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");
         dispatcher.forward(req, resp);
-
     }
 
-    private List<OrderCustomerAndComplexDTO> toOrderCustomerAndComplexDTOList(List<Order> orders) {
+
+    private List<ProductCustomerDTO> toProductCustomerDTO(List<Order> orders){
         return orders
                 .stream()
-                .map(OrderCustomerAndComplexMapper::toOrderCustomerAndComplexDTO)
+                .map(ProductCustomerMapper::toProductCustomerDTO)
                 .collect(Collectors.toList());
     }
+
+
+//    private List<OrderCustomerAndComplexDTO> toOrderCustomerAndComplexDTOList(List<Order> orders) {
+//        return orders
+//                .stream()
+//                .map(OrderCustomerAndComplexMapper::toOrderCustomerAndComplexDTO)
+//                .collect(Collectors.toList());
+//    }
 
     private List<CustomerDTO> toCustomerDTOList(List<Customer> customers) {
         return customers

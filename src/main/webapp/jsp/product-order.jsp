@@ -14,12 +14,27 @@
     </form>
 </div>
 
-<div>
-    <c:forEach items="${orderDTO}" var="order">
-        <h1> Customer: <c:out value="${order.customerName}"/></h1>
-        <h1> Residential complex: <c:out value="${order.complexName}"/>, <c:out value="${order.complexAddress}"/></h1>
-    </c:forEach>
-</div>
+<%--<div>--%>
+<%--    <c:forEach items="productCustomers" var="productCustomer">--%>
+<%--&lt;%&ndash;        <input type="text" name="productCustomerId" value="${productCustomer.id}">&ndash;%&gt;--%>
+<%--        <c:out value="${productCustomer.name}"/>--%>
+<%--        <c:out value="${productCustomer.notes}"/>--%>
+<%--        <input type="submit" value="DELETE">--%>
+<%--    </c:forEach>--%>
+<%--</div>--%>
+
+
+<%--<div>--%>
+<%--    <c:forEach items="${orderDTO}" var="order">--%>
+<%--        <h1> Customer: <c:out value="${order.customerName}"/></h1>--%>
+<%--    </c:forEach>--%>
+<%--</div>--%>
+<%--    <c:forEach items="${orderDTO}" var="order">--%>
+<%--        <h1> Residential complex: <c:out value="${order.complexName}"/>, <c:out value="${order.complexAddress}"/></h1>--%>
+<%--    </c:forEach>--%>
+<%--</div>--%>
+
+
 <br>
 <div>
     <table>

@@ -3,7 +3,12 @@ package com.elcentr.service;
 import com.elcentr.dao.ProductDAO;
 import com.elcentr.model.Product;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -134,7 +139,10 @@ public class ProductService {
         return codeProduct;
     }
 
-    public Product getProductInSessionOrReturnNull(HttpSession session) {
+    public Product getProductByRequestResponse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        RequestDispatcher dispatcher;
+
         try {
             Integer idProduct = (Integer) session.getAttribute("productId");
             if (idProduct != null) {
@@ -145,6 +153,11 @@ public class ProductService {
         } catch (RuntimeException e) {
             LOG.severe("Product not found in session");
         }
+        req.setAttribute("error", "The product not found. Try again please");
+        session.setAttribute("productIdNew", null);
+        session.setAttribute("productId", null);
+        dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(req, resp);
         return null;
     }
 
