@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComponentEnclosureDTO {
+public class ProductEnclosureDTO {
 
     private String componentId;
     private String enclosureManufacturer;

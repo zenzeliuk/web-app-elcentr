@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.elcentr.controller.mapper.ProductOrderMapper.toProductOrderDTO;
-
 @WebServlet(urlPatterns = "/product-order")
 public class ProductOrderController extends HttpServlet {
     @Override
@@ -43,26 +41,12 @@ public class ProductOrderController extends HttpServlet {
         RequestDispatcher dispatcher;
 
         Product product = productService.getProductByRequestResponse(req, resp);
+        Order order = orderService.findByProductOrCreateNew(product);
+        ProductOrderDTO productOrderDTO = ProductOrderMapper.toProductOrderDTO(order);
 
         List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
         List<ComplexDTO> complexDTOList = toComplexDTOList(complexService.findAll());
 
-        Optional<Order> optionalOrder = orderService.findByProduct(product);
-
-        ProductOrderDTO productOrderDTO;
-
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            productOrderDTO = ProductOrderMapper.toProductOrderDTO(order);
-        } else {
-            Order newOrder = orderService.save(Order.builder()
-                    .product(product)
-                    .build());
-            productOrderDTO = ProductOrderMapper.toProductOrderDTO(newOrder);
-        }
-
-
-        req.setAttribute("productId", product.getId());
         req.setAttribute("infoProduct", productService.getInfoProduct(product));
         req.setAttribute("order", productOrderDTO);
         req.setAttribute("customers", customerDTOList);

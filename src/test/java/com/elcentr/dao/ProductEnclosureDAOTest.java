@@ -1,7 +1,7 @@
 package com.elcentr.dao;
 
 
-import com.elcentr.model.Component;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ComponentDAOTest {
+class ProductEnclosureDAOTest {
 
     @Test
     void save() {
@@ -33,14 +33,14 @@ class ComponentDAOTest {
         Enclosure savedEnclosure = enclosureDAO.save(enclosure);
         assertNotNull(savedEnclosure.getId());
 
-        ComponentDAO componentDAO = new ComponentDAO();
-        Component component = Component.builder()
+        ProductEnclosureDAO productEnclosureDAO = new ProductEnclosureDAO();
+        ProductEnclosure productEnclosure = ProductEnclosure.builder()
                 .amountEnclosure(1)
                 .enclosure(savedEnclosure)
                 .product(savedProduct)
                 .build();
-        Component savedComponent = componentDAO.save(component);
-        assertNotNull(savedComponent.getId());
+        ProductEnclosure savedProductEnclosure = productEnclosureDAO.save(productEnclosure);
+        assertNotNull(savedProductEnclosure.getId());
     }
 
     @Test
@@ -63,17 +63,17 @@ class ComponentDAOTest {
         Enclosure savedEnclosure = enclosureDAO.save(enclosure);
         assertNotNull(savedEnclosure.getId());
 
-        ComponentDAO componentDAO = new ComponentDAO();
-        Component component = Component.builder()
+        ProductEnclosureDAO productEnclosureDAO = new ProductEnclosureDAO();
+        ProductEnclosure productEnclosure = ProductEnclosure.builder()
                 .amountEnclosure(1)
                 .enclosure(savedEnclosure)
                 .product(savedProduct)
                 .build();
-        Component savedComponent = componentDAO.save(component);
-        assertNotNull(savedComponent.getId());
+        ProductEnclosure savedProductEnclosure = productEnclosureDAO.save(productEnclosure);
+        assertNotNull(savedProductEnclosure.getId());
 
-        Component foundComponent = componentDAO.findById(savedComponent.getId());
-        assertNotNull(foundComponent);
+        ProductEnclosure foundProductEnclosure = productEnclosureDAO.findById(savedProductEnclosure.getId());
+        assertNotNull(foundProductEnclosure);
     }
 
     @Test
@@ -96,17 +96,17 @@ class ComponentDAOTest {
         Enclosure savedEnclosure = enclosureDAO.save(enclosure);
         assertNotNull(savedEnclosure.getId());
 
-        ComponentDAO componentDAO = new ComponentDAO();
-        Component component = Component.builder()
+        ProductEnclosureDAO productEnclosureDAO = new ProductEnclosureDAO();
+        ProductEnclosure productEnclosure = ProductEnclosure.builder()
                 .amountEnclosure(1)
                 .enclosure(savedEnclosure)
                 .product(savedProduct)
                 .build();
-        Component savedComponent = componentDAO.save(component);
-        assertNotNull(savedComponent.getId());
+        ProductEnclosure savedProductEnclosure = productEnclosureDAO.save(productEnclosure);
+        assertNotNull(savedProductEnclosure.getId());
 
-        componentDAO.delete(savedComponent);
-        Component afterDelete = componentDAO.findById(savedComponent.getId());
+        productEnclosureDAO.delete(savedProductEnclosure);
+        ProductEnclosure afterDelete = productEnclosureDAO.findById(savedProductEnclosure.getId());
         assertNull(afterDelete);
     }
 
@@ -130,14 +130,14 @@ class ComponentDAOTest {
         Enclosure savedEnclosure = enclosureDAO.save(enclosure);
         assertNotNull(savedEnclosure.getId());
 
-        ComponentDAO componentDAO = new ComponentDAO();
-        Component component = Component.builder()
+        ProductEnclosureDAO productEnclosureDAO = new ProductEnclosureDAO();
+        ProductEnclosure productEnclosure = ProductEnclosure.builder()
                 .amountEnclosure(1)
                 .enclosure(savedEnclosure)
                 .product(savedProduct)
                 .build();
-        Component savedComponent = componentDAO.save(component);
-        assertNotNull(savedComponent.getId());
+        ProductEnclosure savedProductEnclosure = productEnclosureDAO.save(productEnclosure);
+        assertNotNull(savedProductEnclosure.getId());
 
 
         Enclosure enclosure2 = Enclosure.builder()
@@ -146,15 +146,15 @@ class ComponentDAOTest {
         Enclosure savedEnclosure2 = enclosureDAO.save(enclosure2);
         assertNotNull(savedEnclosure2.getId());
 
-        Integer idEnclosureBeforeUpdate = savedComponent.getEnclosure().getId();
+        Integer idEnclosureBeforeUpdate = savedProductEnclosure.getEnclosure().getId();
 
-        savedComponent.setEnclosure(savedEnclosure2);
-        componentDAO.update(savedComponent);
+        savedProductEnclosure.setEnclosure(savedEnclosure2);
+        productEnclosureDAO.update(savedProductEnclosure);
 
-        Integer idEnclosureAfterUpdate = savedComponent.getEnclosure().getId();
+        Integer idEnclosureAfterUpdate = savedProductEnclosure.getEnclosure().getId();
 
         assertFalse(idEnclosureBeforeUpdate.equals(idEnclosureAfterUpdate));
-        assertFalse(savedComponent.getEnclosure().getId().equals(savedEnclosure.getId()));
+        assertFalse(savedProductEnclosure.getEnclosure().getId().equals(savedEnclosure.getId()));
 
     }
 
@@ -177,16 +177,16 @@ class ComponentDAOTest {
         Enclosure savedEnclosure = enclosureDAO.save(enclosure);
         assertNotNull(savedEnclosure.getId());
 
-        ComponentDAO componentDAO = new ComponentDAO();
-        Component component = Component.builder()
+        ProductEnclosureDAO productEnclosureDAO = new ProductEnclosureDAO();
+        ProductEnclosure productEnclosure = ProductEnclosure.builder()
                 .amountEnclosure(1)
                 .enclosure(savedEnclosure)
                 .product(savedProduct)
                 .build();
-        Component savedComponent = componentDAO.save(component);
-        assertNotNull(savedComponent.getId());
+        ProductEnclosure savedProductEnclosure = productEnclosureDAO.save(productEnclosure);
+        assertNotNull(savedProductEnclosure.getId());
 
-        List<Component> result = componentDAO.findAllProductWhereEnclosureIs(enclosure);
+        List<ProductEnclosure> result = productEnclosureDAO.findAllProductWhereEnclosureIs(enclosure);
         assertNotNull(result);
         assertFalse(result.isEmpty());
 

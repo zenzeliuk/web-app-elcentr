@@ -12,9 +12,9 @@ import javax.persistence.Table;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "components")
+@Table(name = "product_enclosures")
 @Entity
-public class Component extends BaseEntity {
+public class ProductEnclosure extends BaseEntity {
 
     @ManyToOne(targetEntity = Product.class)
     private Product product;
@@ -25,7 +25,7 @@ public class Component extends BaseEntity {
     @Column(name = "amount_enclosure", nullable = false)
     private Integer amountEnclosure;
 
-    public Component(Integer id, Product product, Enclosure enclosure, Integer amountEnclosure) {
+    public ProductEnclosure(Integer id, Product product, Enclosure enclosure, Integer amountEnclosure) {
         super.setId(id);
         this.product = product;
         this.enclosure = enclosure;

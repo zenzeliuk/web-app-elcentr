@@ -1,10 +1,8 @@
 package com.elcentr.controller.button;
 
-import com.elcentr.model.Component;
-import com.elcentr.model.Enclosure;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.ComponentService;
-import com.elcentr.service.EnclosureService;
+import com.elcentr.service.ProductEnclosureService;
 import com.elcentr.service.ProductService;
 
 import javax.servlet.RequestDispatcher;
@@ -28,7 +26,7 @@ public class ProductEnclosureButtonDelete extends HttpServlet {
         HttpSession session = req.getSession();
 
         ProductService productService = new ProductService();
-        ComponentService componentService = new ComponentService();
+        ProductEnclosureService productEnclosureService = new ProductEnclosureService();
         RequestDispatcher dispatcher;
 
         Integer productSessionId = (Integer) session.getAttribute("productId");
@@ -36,10 +34,10 @@ public class ProductEnclosureButtonDelete extends HttpServlet {
         String componentId = req.getParameter("componentId");
 
         Optional<Product> optProduct = productService.findById(Integer.parseInt(productId));
-        Optional<Component> optComponent = componentService.findById(Integer.parseInt(componentId));
+        Optional<ProductEnclosure> optComponent = productEnclosureService.findById(Integer.parseInt(componentId));
 
         if (optProduct.isPresent() || optComponent.isPresent() || productId.equals(productSessionId.toString())) {
-            componentService.delete(optComponent.get());
+            productEnclosureService.delete(optComponent.get());
             session.setAttribute("productId", productSessionId);
             resp.sendRedirect("/product-enclosure");
         } else {

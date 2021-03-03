@@ -1,6 +1,5 @@
 package com.elcentr.dao;
 
-import com.elcentr.model.Component;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;
 import org.hibernate.Session;
@@ -8,8 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
-import java.util.List;
-import java.util.Optional;
 
 import static java.util.Objects.isNull;
 

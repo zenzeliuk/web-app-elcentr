@@ -15,18 +15,22 @@
 </div>
 
 <div>
-    <h2>${order.customerName}</h2>
-    <h2>${order.complexName}</h2>
-    <h2>${order.complexAddress}</h2>
+    <c:if test="${order.customerName != null}">
+        <h2>Customer: ${order.customerName}</h2>
+    </c:if>
+    <c:if test="${order.complexName != null}">
+        <h2>Complex: ${order.complexName}</h2>
+    </c:if>
+    <c:if test="${order.complexAddress != null}">
+        <h2>Address: ${order.complexAddress}</h2>
+    </c:if>
 </div>
-
 
 
 <%--<form action="product-customer-delete">--%>
 <%--    <h2>${productCustomer}</h2>--%>
 <%--    <input type="submit" value="DELETE">--%>
 <%--</form>--%>
-
 
 
 <%--<div>--%>

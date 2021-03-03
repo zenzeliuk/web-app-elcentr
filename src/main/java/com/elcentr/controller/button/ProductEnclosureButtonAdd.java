@@ -1,9 +1,9 @@
 package com.elcentr.controller.button;
 
-import com.elcentr.model.Component;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.ComponentService;
+import com.elcentr.service.ProductEnclosureService;
 import com.elcentr.service.EnclosureService;
 import com.elcentr.service.ProductService;
 
@@ -28,7 +28,7 @@ public class ProductEnclosureButtonAdd extends HttpServlet {
 
         HttpSession session = req.getSession();
         ProductService productService = new ProductService();
-        ComponentService componentService = new ComponentService();
+        ProductEnclosureService productEnclosureService = new ProductEnclosureService();
         EnclosureService enclosureService = new EnclosureService();
         RequestDispatcher dispatcher;
 
@@ -41,7 +41,7 @@ public class ProductEnclosureButtonAdd extends HttpServlet {
         Optional<Enclosure> optEnclosure = enclosureService.findById(Integer.parseInt(enclosureId));
 
         if (optProduct.isPresent() || optEnclosure.isPresent() || productId.equals(productSessionId.toString())) {
-            componentService.save(Component.builder()
+            productEnclosureService.save(ProductEnclosure.builder()
                     .product(optProduct.get())
                     .enclosure(optEnclosure.get())
                     .amountEnclosure(Integer.parseInt(amount))

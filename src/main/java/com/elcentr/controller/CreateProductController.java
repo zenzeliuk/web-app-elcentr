@@ -29,11 +29,6 @@ public class CreateProductController extends HttpServlet {
         ProductService productService = new ProductService();
         RequestDispatcher dispatcher;
 
-        if (nonNull(session.getAttribute("productIdNew"))) {
-            session.setAttribute("productIdNew", null);
-            resp.sendRedirect("/jsp/create-product.jsp");
-        }
-
         Long timeRegistration = new Date().getTime();
         String name = req.getParameter("name");
         String amount = req.getParameter("amount");
@@ -66,6 +61,8 @@ public class CreateProductController extends HttpServlet {
                 dispatcher = req.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(req, resp);
             }
+
+
         }
     }
 }

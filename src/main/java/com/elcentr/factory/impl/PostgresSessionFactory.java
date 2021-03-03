@@ -21,7 +21,7 @@ public class PostgresSessionFactory implements HibernateSessionFactory {
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
 
-            configuration.addAnnotatedClass(Component.class);
+            configuration.addAnnotatedClass(ProductEnclosure.class);
             configuration.addAnnotatedClass(Customer.class);
             configuration.addAnnotatedClass(Enclosure.class);
             configuration.addAnnotatedClass(Order.class);

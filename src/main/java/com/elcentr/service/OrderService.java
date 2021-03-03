@@ -1,5 +1,7 @@
 package com.elcentr.service;
 
+import com.elcentr.controller.dto.ProductOrderDTO;
+import com.elcentr.controller.mapper.ProductOrderMapper;
 import com.elcentr.dao.OrderDAO;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;
@@ -46,13 +48,16 @@ public class OrderService {
         orderDAO.delete(order);
     }
 
-    public Optional<Order> findByProduct(Product product) {
+    public Order findByProductOrCreateNew(Product product) {
         OrderDAO orderDAO = new OrderDAO();
         try {
-            return Optional.of(orderDAO.findByProduct(product));
+            Optional<Order> optionalOrder = Optional.ofNullable(orderDAO.findByProduct(product));
+            if (optionalOrder.isPresent())
+                return optionalOrder.get();
+
         } catch (Exception e) {
             LOG.severe(String.format("Order with id product %d was not found", product.getId()));
         }
-        return Optional.empty();
+        return save(Order.builder().product(product).build());
     }
 }

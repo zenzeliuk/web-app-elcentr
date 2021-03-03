@@ -6,7 +6,6 @@
 <body>
 
 <h2>${infoProduct}</h2>
-<h2>${messageProductEnclosure}</h2>
 
 <div>
     <form action="/product">
@@ -23,15 +22,15 @@
             <th>NAME</th>
             <th>AMOUNT</th>
         </tr>
-        <c:forEach items="${componentEnclosures}" var="component">
+        <c:forEach items="${productEnclosures}" var="productEnclosure">
             <form action="/product-enclosure-button-delete">
                 <tr>
-                    <input type="text" name="componentId" value="${component.componentId}" hidden>
+                    <input type="text" name="componentId" value="${productEnclosure.componentId}" hidden>
                     <input type="text" name="productId" value="${productId}" hidden>
-                    <td><c:out value="${component.enclosureManufacturer}"/></td>
-                    <td><c:out value="${component.enclosureCode}"/></td>
-                    <td><c:out value="${component.enclosureName}"/></td>
-                    <td><c:out value="${component.enclosureAmount}"/></td>
+                    <td><c:out value="${productEnclosure.enclosureManufacturer}"/></td>
+                    <td><c:out value="${productEnclosure.enclosureCode}"/></td>
+                    <td><c:out value="${productEnclosure.enclosureName}"/></td>
+                    <td><c:out value="${productEnclosure.enclosureAmount}"/></td>
                     <td><input type="submit" value="DELETE"></td>
                 </tr>
             </form>

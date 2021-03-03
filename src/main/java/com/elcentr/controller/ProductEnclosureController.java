@@ -1,13 +1,13 @@
 package com.elcentr.controller;
 
-import com.elcentr.controller.dto.ComponentEnclosureDTO;
+import com.elcentr.controller.dto.ProductEnclosureDTO;
 import com.elcentr.controller.dto.EnclosureDTO;
-import com.elcentr.controller.mapper.ComponentEnclosureMapper;
+import com.elcentr.controller.mapper.ProductEnclosureMapper;
 import com.elcentr.controller.mapper.EnclosureMapper;
-import com.elcentr.model.Component;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.ComponentService;
+import com.elcentr.service.ProductEnclosureService;
 import com.elcentr.service.EnclosureService;
 import com.elcentr.service.ProductService;
 
@@ -17,10 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -33,36 +31,28 @@ public class ProductEnclosureController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
-        HttpSession session = req.getSession();
         ProductService productService = new ProductService();
-        ComponentService componentService = new ComponentService();
+        ProductEnclosureService productEnclosureService = new ProductEnclosureService();
         EnclosureService enclosureService = new EnclosureService();
         RequestDispatcher dispatcher;
 
-        Optional<Product> optProduct = productService.findById((Integer) session.getAttribute("productId"));
-        if (optProduct.isPresent()) {
-            Product product = optProduct.get();
-            List<Component> allComponentsByIdProduct = componentService.findAllByIdProduct(product.getId());
-            req.setAttribute("productId", product.getId());
-            req.setAttribute("infoProduct", productService.getInfoProduct(product));
-            req.setAttribute("messageProductEnclosure", getMessage(toComponentEnclosureDTOList(allComponentsByIdProduct)));
-            req.setAttribute("componentEnclosures", toComponentEnclosureDTOList(allComponentsByIdProduct));
-            req.setAttribute("enclosures", toEnclosureDTOList(enclosureService.findAll()));
-            dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
-        } else {
-            req.setAttribute("error", "The product not found. Try again please");
-            session.setAttribute("productIdNew", null);
-            session.setAttribute("productId", null);
-            dispatcher = req.getRequestDispatcher("/index.jsp");
-        }
-        dispatcher.forward(req, resp);
+        Product product = productService.getProductByRequestResponse(req, resp);
 
+        List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
+        List<ProductEnclosure> productEnclosureList = productEnclosureService.findAllByIdProduct(product.getId());
+        List<ProductEnclosureDTO> productEnclosureDTOList = toProductEnclosureDTOList(productEnclosureList);
+
+        req.setAttribute("infoProduct", productService.getInfoProduct(product));
+        req.setAttribute("productEnclosures", productEnclosureDTOList);             //List of all enclosures in product
+        req.setAttribute("enclosures", enclosureDTOList);                           //List of all enclosures
+        dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
+        dispatcher.forward(req, resp);
     }
 
-    private List<ComponentEnclosureDTO> toComponentEnclosureDTOList(List<Component> components) {
-        return components
+    private List<ProductEnclosureDTO> toProductEnclosureDTOList(List<ProductEnclosure> productEnclosures) {
+        return productEnclosures
                 .stream()
-                .map(ComponentEnclosureMapper::toComponentEnclosureDTO)
+                .map(ProductEnclosureMapper::toProductEnclosureDTO)
                 .collect(Collectors.toList());
     }
 
@@ -72,10 +62,4 @@ public class ProductEnclosureController extends HttpServlet {
                 .collect(Collectors.toList());
     }
 
-    private String getMessage(List<ComponentEnclosureDTO> componentEnclosureDTOList) {
-        if (isNull(componentEnclosureDTOList) || componentEnclosureDTOList.isEmpty()) {
-            return "You have 0 enclosure in product.";
-        }
-        return String.format("You have %d enclosure in product.", componentEnclosureDTOList.size());
-    }
 }

@@ -25,27 +25,20 @@ public class ProductController extends HttpServlet {
         ProductService productService = new ProductService();
         RequestDispatcher dispatcher;
 
-        Optional<Product> optProduct = productService.findById((Integer) session.getAttribute("productId"));
-        if (optProduct.isPresent()) {
-            Product product = optProduct.get();
-            req.setAttribute("infoProduct", productService.getInfoProduct(product));
+        Optional<Product> newOptionalProduct = productService.findById((Integer) session.getAttribute("productIdNew"));
+        if (newOptionalProduct.isPresent()) {
+            Product newProduct = newOptionalProduct.get();
+            String code = productService.getCodeProduct(newProduct);
+            req.setAttribute("messageSave", String.format("Product %s with code %s saved", newProduct.getName(), code));
+            session.setAttribute("productId", session.getAttribute("productIdNew"));
+            session.setAttribute("productIdNew", null);
             dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
         } else {
-            Optional<Product> optNewProduct = productService.findById((Integer) session.getAttribute("productIdNew"));
-            if (optNewProduct.isPresent()) {
-                Product savedProduct = optNewProduct.get();
-                String code = productService.getCodeProduct(savedProduct);
-                req.setAttribute("messageSave", String.format("Product %s with code %s saved", savedProduct.getName(), code));
-                session.setAttribute("productId", session.getAttribute("productIdNew"));
-                session.setAttribute("productIdNew", null);
-                dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
-            } else {
-                req.setAttribute("error", "The product not found. Try again please");
-                session.setAttribute("productIdNew", null);
-                session.setAttribute("productId", null);
-                dispatcher = req.getRequestDispatcher("/index.jsp");
-            }
+            Product product = productService.getProductByRequestResponse(req, resp);
+            req.setAttribute("infoProduct", productService.getInfoProduct(product));
+            dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
         }
         dispatcher.forward(req, resp);
+
     }
 }
