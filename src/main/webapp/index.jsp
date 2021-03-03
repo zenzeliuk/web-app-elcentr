@@ -9,5 +9,7 @@
 
 <h3><a href="/jsp/create-product.jsp">CREATE NEW PRODUCT</a></h3>
 
+<h3><a href="/customer">CUSTOMERS</a></h3>
+
 </body>
 </html>

@@ -3,10 +3,7 @@
     <title>Creation page</title>
 </head>
 <body>
-
-<h2>${error}</h2>
-
-<br>
+<h2>${error}</h2><br>
 <h3><a href="/index.jsp">GO START PAGE!</a></h3><br>
 
 <form action="/create-product">

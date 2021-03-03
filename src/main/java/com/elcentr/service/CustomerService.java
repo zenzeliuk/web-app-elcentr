@@ -6,6 +6,7 @@ import com.elcentr.model.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
@@ -15,12 +16,15 @@ public class CustomerService {
 
     private static final Logger LOG = Logger.getLogger(CustomerService.class.getName());
 
-    public Customer save(Customer customer) {
+    public Optional<Customer> save(Customer customer) {
         CustomerDAO customerDAO = new CustomerDAO();
         if (nonNull(customer.getId())) {
             throw new RuntimeException("Creation is failed!");
         }
-        return customerDAO.save(customer);
+        if (!findAll().contains(customer)) {
+            return Optional.of(customerDAO.save(customer));
+        }
+        return Optional.empty();
     }
 
     public Customer update(Customer customer) {
