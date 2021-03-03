@@ -2,10 +2,10 @@ package com.elcentr.controller;
 
 import com.elcentr.controller.dto.ComplexDTO;
 import com.elcentr.controller.dto.CustomerDTO;
-import com.elcentr.controller.dto.ProductCustomerDTO;
+import com.elcentr.controller.dto.ProductOrderDTO;
 import com.elcentr.controller.mapper.ComplexMapper;
 import com.elcentr.controller.mapper.CustomerMapper;
-import com.elcentr.controller.mapper.ProductCustomerMapper;
+import com.elcentr.controller.mapper.ProductOrderMapper;
 import com.elcentr.model.Customer;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;
@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.elcentr.controller.mapper.ProductOrderMapper.toProductOrderDTO;
+
 @WebServlet(urlPatterns = "/product-order")
 public class ProductOrderController extends HttpServlet {
     @Override
@@ -42,29 +44,27 @@ public class ProductOrderController extends HttpServlet {
 
         Product product = productService.getProductByRequestResponse(req, resp);
 
-        Optional<Order> optionalOrder = orderService.findByProduct(product);
-
         List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
         List<ComplexDTO> complexDTOList = toComplexDTOList(complexService.findAll());
 
+        Optional<Order> optionalOrder = orderService.findByProduct(product);
 
-        ProductCustomerDTO productCustomerDTO = null;
+        ProductOrderDTO productOrderDTO;
 
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();
-            productCustomerDTO = ProductCustomerMapper.toProductCustomerDTO(order);
+            productOrderDTO = ProductOrderMapper.toProductOrderDTO(order);
+        } else {
+            Order newOrder = orderService.save(Order.builder()
+                    .product(product)
+                    .build());
+            productOrderDTO = ProductOrderMapper.toProductOrderDTO(newOrder);
         }
 
 
-//        List<OrderCustomerAndComplexDTO> orderCustomerAndComplexDTOList = toOrderCustomerAndComplexDTOList(productOrders);
-//        List<String> productComplexDTOList = null;
-
         req.setAttribute("productId", product.getId());
         req.setAttribute("infoProduct", productService.getInfoProduct(product));
-
-        req.setAttribute("productCustomer", productCustomerDTO);
-//        req.setAttribute("productComplexes", productComplexDTOList);
-
+        req.setAttribute("order", productOrderDTO);
         req.setAttribute("customers", customerDTOList);
         req.setAttribute("complexes", complexDTOList);
         dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");

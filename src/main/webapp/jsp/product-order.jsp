@@ -14,10 +14,18 @@
     </form>
 </div>
 
-<form action="product-customer-delete">
-    <h2>${productCustomer}</h2>
-    <input type="submit" value="DELETE">
-</form>
+<div>
+    <h2>${order.customerName}</h2>
+    <h2>${order.complexName}</h2>
+    <h2>${order.complexAddress}</h2>
+</div>
+
+
+
+<%--<form action="product-customer-delete">--%>
+<%--    <h2>${productCustomer}</h2>--%>
+<%--    <input type="submit" value="DELETE">--%>
+<%--</form>--%>
 
 
 
