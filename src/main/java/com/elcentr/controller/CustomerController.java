@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,15 +24,29 @@ public class CustomerController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
-        CustomerService customerService = new CustomerService();
+        HttpSession session = req.getSession();
         RequestDispatcher dispatcher;
+        CustomerService customerService = new CustomerService();
+
+        String info = null;
+        String error = null;
+
+        if (session.getAttribute("info") != null) {
+            info = (String) session.getAttribute("info");
+            session.setAttribute("info", null);
+        }
+
+        if (session.getAttribute("error") != null) {
+            error = (String) session.getAttribute("error");
+            session.setAttribute("error", null);
+        }
 
         List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
 
-        req.setAttribute("info", req.getParameter("messageSave"));
-        req.setAttribute("messageSave", null);
+        req.setAttribute("info", info);
+        req.setAttribute("error", error);
         req.setAttribute("customers", customerDTOList);
-        dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");
+        dispatcher = req.getRequestDispatcher("/jsp/customer.jsp");
         dispatcher.forward(req, resp);
     }
 

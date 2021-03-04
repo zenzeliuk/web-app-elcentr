@@ -27,20 +27,17 @@ public class CreateProductController extends HttpServlet {
 
         HttpSession session = req.getSession();
         ProductService productService = new ProductService();
-        RequestDispatcher dispatcher;
 
         Long timeRegistration = new Date().getTime();
         String name = req.getParameter("name");
         String amount = req.getParameter("amount");
         String current = req.getParameter("current");
         String decimal = req.getParameter("decimal");
-        String error;
 
         if (name == null || amount == null || current == null || name.isBlank() || amount.isBlank() || current.isBlank()) {
-            error = "One of more of the input boxes were blank. Try again.";
-            req.setAttribute("error", error);
-            dispatcher = req.getRequestDispatcher("/jsp/create-product.jsp");
-            dispatcher.forward(req, resp);
+            String error = "One of more of the input boxes were blank. Try again.";
+            session.setAttribute("error", error);
+            resp.sendRedirect("/jsp/create-product.jsp");
         } else {
             Product product = Product.builder()
                     .code(productService.createCodeProduct())
@@ -50,19 +47,15 @@ public class CreateProductController extends HttpServlet {
                     .nominalCurrent(Integer.parseInt(current))
                     .decimalNumber(decimal)
                     .build();
-
             Optional<Product> optProduct = productService.save(product);
             if (optProduct.isPresent()) {
-                session.setAttribute("productIdNew", optProduct.get().getId());
-                session.setAttribute("productId", null);
+                session.setAttribute("productNew", optProduct.get());
                 resp.sendRedirect("/product");
             } else {
-                req.setAttribute("error", "The product could not be saved. Try again please");
-                dispatcher = req.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(req, resp);
+                String error = "The product could not be saved. Try again please";
+                session.setAttribute("error", error);
+                resp.sendRedirect("/jsp/create-product.jsp");
             }
-
-
         }
     }
 }

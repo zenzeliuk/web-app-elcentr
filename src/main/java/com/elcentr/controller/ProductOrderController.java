@@ -40,15 +40,15 @@ public class ProductOrderController extends HttpServlet {
         ResidentialComplexService complexService = new ResidentialComplexService();
         RequestDispatcher dispatcher;
 
-        Product product = productService.getProductByRequestResponse(req, resp);
-        Order order = orderService.findByProductOrCreateNew(product);
-        ProductOrderDTO productOrderDTO = ProductOrderMapper.toProductOrderDTO(order);
+//        Product product = productService.getProductByRequestResponse(req, resp);
+//        Order order = orderService.findByProductOrCreateNew(product);
+//        ProductOrderDTO productOrderDTO = ProductOrderMapper.toProductOrderDTO(order);
 
         List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
         List<ComplexDTO> complexDTOList = toComplexDTOList(complexService.findAll());
 
-        req.setAttribute("infoProduct", productService.getInfoProduct(product));
-        req.setAttribute("order", productOrderDTO);
+//        req.setAttribute("infoProduct", productService.getInfoProduct(product));
+//        req.setAttribute("order", productOrderDTO);
         req.setAttribute("customers", customerDTOList);
         req.setAttribute("complexes", complexDTOList);
         dispatcher = req.getRequestDispatcher("/jsp/product-order.jsp");

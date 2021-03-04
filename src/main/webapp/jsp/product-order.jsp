@@ -5,8 +5,7 @@
     <title>Product customer</title>
 </head>
 <body>
-
-<h2>${infoProduct}</h2>
+<h2>${info}</h2>
 
 <div>
     <form action="/product">

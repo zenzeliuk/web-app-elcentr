@@ -4,9 +4,7 @@
     <title>Product</title>
 </head>
 <body>
-
-<h2>${messageSave}</h2>
-<h2>${infoProduct}</h2>
+<h2>${info}</h2>
 
 <div>
     <form action="/product-enclosure">

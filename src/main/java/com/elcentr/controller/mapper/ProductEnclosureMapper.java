@@ -7,11 +7,11 @@ public class ProductEnclosureMapper {
 
     public static ProductEnclosureDTO toProductEnclosureDTO(ProductEnclosure productEnclosure) {
         return ProductEnclosureDTO.builder()
-                .componentId(productEnclosure.getId().toString())
-                .enclosureManufacturer(productEnclosure.getEnclosure().getManufacturer())
-                .enclosureCode(productEnclosure.getEnclosure().getCode())
-                .enclosureName(productEnclosure.getEnclosure().getName())
-                .enclosureAmount(productEnclosure.getAmountEnclosure().toString())
+                .id(productEnclosure.getId().toString())
+                .manufacturer(productEnclosure.getEnclosure().getManufacturer())
+                .code(productEnclosure.getEnclosure().getCode())
+                .name(productEnclosure.getEnclosure().getName())
+                .amount(productEnclosure.getAmountEnclosure().toString())
                 .build();
     }
 

@@ -23,22 +23,24 @@ public class ProductController extends HttpServlet {
 
         HttpSession session = req.getSession();
         ProductService productService = new ProductService();
-        RequestDispatcher dispatcher;
 
-        Optional<Product> newOptionalProduct = productService.findById((Integer) session.getAttribute("productIdNew"));
-        if (newOptionalProduct.isPresent()) {
-            Product newProduct = newOptionalProduct.get();
-            String code = productService.getCodeProduct(newProduct);
-            req.setAttribute("messageSave", String.format("Product %s with code %s saved", newProduct.getName(), code));
-            session.setAttribute("productId", session.getAttribute("productIdNew"));
-            session.setAttribute("productIdNew", null);
-            dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
+        Product productNew = (Product) session.getAttribute("productNew");
+        Product product = (Product) session.getAttribute("product");
+
+        if (productNew != null) {
+            String info = productService.getInfoProduct(productNew) + "saved";
+            session.setAttribute("info", info);
+            session.setAttribute("product", productNew);
+            session.setAttribute("productNew", null);
+            resp.sendRedirect("/jsp/product.jsp");
+        } else if (product != null) {
+            String info = productService.getInfoProduct(product);
+            session.setAttribute("info", info);
+            resp.sendRedirect("/jsp/product.jsp");
         } else {
-            Product product = productService.getProductByRequestResponse(req, resp);
-            req.setAttribute("infoProduct", productService.getInfoProduct(product));
-            dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
+            String error = "The product not found. Try again please";
+            session.setAttribute("error", error);
+            resp.sendRedirect("/index.jsp");
         }
-        dispatcher.forward(req, resp);
-
     }
 }

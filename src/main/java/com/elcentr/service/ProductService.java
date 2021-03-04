@@ -139,27 +139,23 @@ public class ProductService {
         return codeProduct;
     }
 
-    public Product getProductByRequestResponse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        RequestDispatcher dispatcher;
-
-        try {
-            Integer idProduct = (Integer) session.getAttribute("productId");
-            if (idProduct != null) {
-                Optional<Product> optProduct = findById(idProduct);
-                if (optProduct.isPresent())
-                    return optProduct.get();
-            }
-        } catch (RuntimeException e) {
-            LOG.severe("Product not found in session");
-        }
-        req.setAttribute("error", "The product not found. Try again please");
-        session.setAttribute("productIdNew", null);
-        session.setAttribute("productId", null);
-        dispatcher = req.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(req, resp);
-        return null;
-    }
+//    public Product getProductByRequestResponse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        HttpSession session = req.getSession();
+//        try {
+//            Integer idProduct = (Integer) session.getAttribute("productId");
+//            if (idProduct != null) {
+//                Optional<Product> optProduct = findById(idProduct);
+//                if (optProduct.isPresent())
+//                    return optProduct.get();
+//            }
+//        } catch (RuntimeException e) {
+//            LOG.severe("Product not found in session");
+//        }
+//        session.setAttribute("error", "The product not found. Try again please");
+//        session.setAttribute("productId", null);
+//        resp.sendRedirect("/index.jsp");
+//        return null;
+//    }
 
     public String getInfoProduct(Product product) {
         String infoProduct;

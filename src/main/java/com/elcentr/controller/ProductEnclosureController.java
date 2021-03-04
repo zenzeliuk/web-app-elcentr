@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,22 +32,30 @@ public class ProductEnclosureController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
+        HttpSession session = req.getSession();
         ProductService productService = new ProductService();
         ProductEnclosureService productEnclosureService = new ProductEnclosureService();
         EnclosureService enclosureService = new EnclosureService();
         RequestDispatcher dispatcher;
 
-        Product product = productService.getProductByRequestResponse(req, resp);
+        Product product = (Product) session.getAttribute("product");
 
-        List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
-        List<ProductEnclosure> productEnclosureList = productEnclosureService.findAllByIdProduct(product.getId());
-        List<ProductEnclosureDTO> productEnclosureDTOList = toProductEnclosureDTOList(productEnclosureList);
+        if (productService.findById(product.getId()).isPresent()) {
+            List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
+            List<ProductEnclosure> productEnclosureList = productEnclosureService.findAllByIdProduct(product.getId());
+            List<ProductEnclosureDTO> productEnclosureDTOList = toProductEnclosureDTOList(productEnclosureList);
+            req.setAttribute("info", productService.getInfoProduct(product));
+            req.setAttribute("productEnclosures", productEnclosureDTOList);
+            req.setAttribute("enclosures", enclosureDTOList);
+            dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
+            dispatcher.forward(req, resp);
+        } else {
+            String error = "The product not found. Try again please";
+            session.setAttribute("error", error);
+            resp.sendRedirect("/index.jsp");
+        }
 
-        req.setAttribute("infoProduct", productService.getInfoProduct(product));
-        req.setAttribute("productEnclosures", productEnclosureDTOList);             //List of all enclosures in product
-        req.setAttribute("enclosures", enclosureDTOList);                           //List of all enclosures
-        dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
-        dispatcher.forward(req, resp);
+
     }
 
     private List<ProductEnclosureDTO> toProductEnclosureDTOList(List<ProductEnclosure> productEnclosures) {

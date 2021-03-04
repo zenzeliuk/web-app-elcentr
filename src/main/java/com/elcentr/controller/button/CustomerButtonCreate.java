@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -20,8 +21,8 @@ public class CustomerButtonCreate extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Cache-Control", "no-store");
 
+        HttpSession session = req.getSession();
         CustomerService customerService = new CustomerService();
-        RequestDispatcher dispatcher;
 
         String name = req.getParameter("name");
         String notes = req.getParameter("notes");
@@ -29,9 +30,7 @@ public class CustomerButtonCreate extends HttpServlet {
 
         if (name == null || name.isBlank()) {
             error = "One of more of the input boxes were blank. Try again.";
-            req.setAttribute("error", error);
-            dispatcher = req.getRequestDispatcher("/jsp/customer.jsp");
-            dispatcher.forward(req, resp);
+            session.setAttribute("error", error);
         } else {
             Customer customer = Customer.builder()
                     .name(name)
@@ -39,15 +38,16 @@ public class CustomerButtonCreate extends HttpServlet {
                     .build();
             Optional<Customer> optionalCustomer = customerService.save(customer);
             if (optionalCustomer.isPresent()) {
-                String messageSave = "One of more of the input boxes were blank. Try again.";
-                req.setAttribute("messageSave", messageSave);
-                dispatcher = req.getRequestDispatcher("/customer");
+                Customer savedCustomer = optionalCustomer.get();
+                String info = String.format("Customer: %s %s - saved", savedCustomer.getName(), savedCustomer.getNotes());
+                session.setAttribute("info", info);
             } else {
-                req.setAttribute("error", "The customer could not be saved. Try again please");
-                dispatcher = req.getRequestDispatcher("/jsp/customer.jsp");
+                error = "The customer could not be saved. Try again please";
+                session.setAttribute("error", error);
             }
-            dispatcher.forward(req, resp);
         }
+        resp.sendRedirect("/customer");
+
 
     }
 }

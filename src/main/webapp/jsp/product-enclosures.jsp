@@ -4,8 +4,7 @@
     <title>Product enclosures</title>
 </head>
 <body>
-
-<h2>${infoProduct}</h2>
+<h2>${info}</h2>
 
 <div>
     <form action="/product">
@@ -23,41 +22,39 @@
             <th>AMOUNT</th>
         </tr>
         <c:forEach items="${productEnclosures}" var="productEnclosure">
-            <form action="/product-enclosure-button-delete">
-                <tr>
-                    <input type="text" name="componentId" value="${productEnclosure.componentId}" hidden>
-                    <input type="text" name="productId" value="${productId}" hidden>
-                    <td><c:out value="${productEnclosure.enclosureManufacturer}"/></td>
-                    <td><c:out value="${productEnclosure.enclosureCode}"/></td>
-                    <td><c:out value="${productEnclosure.enclosureName}"/></td>
-                    <td><c:out value="${productEnclosure.enclosureAmount}"/></td>
+            <tr>
+                <td><c:out value="${productEnclosure.manufacturer}"/></td>
+                <td><c:out value="${productEnclosure.code}"/></td>
+                <td><c:out value="${productEnclosure.name}"/></td>
+                <td><c:out value="${productEnclosure.amount}"/></td>
+                <form action="/product-enclosure-button-delete">
+                    <input type="text" name="componentId" value="${productEnclosure.id}" hidden>
+                    <input type="text" name="productId" value="${product}" hidden>
                     <td><input type="submit" value="DELETE"></td>
-                </tr>
-            </form>
+                </form>
+            </tr>
         </c:forEach>
     </table>
 </div>
-<br>
 
-<div>
-    <form action="/enclosure-button-create">
-        <h2>Create enclosures:</h2>
 
-        <input type="text" name="productId" value="${productId}" hidden>
+<%--<div>--%>
+<%--    <form action="/enclosure-button-create">--%>
+<%--        <h2>Create enclosures:</h2>--%>
 
-        <label for="manufacture">MANUFACTURE:</label>
-        <input id="manufacture" type="text" name="manufacture">
+<%--        <label for="manufacture">MANUFACTURE:</label>--%>
+<%--        <input id="manufacture" type="text" name="manufacture">--%>
 
-        <label for="code">CODE:</label>
-        <input id="code" type="text" name="code">
+<%--        <label for="code">CODE:</label>--%>
+<%--        <input id="code" type="text" name="code">--%>
 
-        <label for="name">NAME:</label>
-        <input id="name" type="text" name="name" required>
+<%--        <label for="name">NAME:</label>--%>
+<%--        <input id="name" type="text" name="name" required>--%>
 
-        <input type="submit" value="CREATE">
-    </form>
-</div>
-<br>
+<%--        <input type="submit" value="CREATE">--%>
+<%--    </form>--%>
+<%--</div>--%>
+
 
 <div>
     <table>
@@ -72,7 +69,7 @@
             <form action="/product-enclosure-button-add">
                 <tr>
                     <input type="text" name="enclosureId" value="${enclosure.id}" hidden>
-                    <input type="text" name="productId" value="${productId}" hidden>
+                    <input type="text" name="productId" value="${product}" hidden>
                     <td><c:out value="${enclosure.manufacturer}"/></td>
                     <td><c:out value="${enclosure.code}"/></td>
                     <td><c:out value="${enclosure.name}"/></td>

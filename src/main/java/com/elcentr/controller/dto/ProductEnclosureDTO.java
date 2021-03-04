@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductEnclosureDTO {
 
-    private String componentId;
-    private String enclosureManufacturer;
-    private String enclosureName;
-    private String enclosureCode;
-    private String enclosureAmount;
+    private String id;
+    private String manufacturer;
+    private String name;
+    private String code;
+    private String amount;
 
 }
