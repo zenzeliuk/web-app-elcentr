@@ -28,33 +28,13 @@
                 <td><c:out value="${productEnclosure.name}"/></td>
                 <td><c:out value="${productEnclosure.amount}"/></td>
                 <form action="/product-enclosure-button-delete">
-                    <input type="text" name="componentId" value="${productEnclosure.id}" hidden>
-                    <input type="text" name="productId" value="${product}" hidden>
+                    <input type="text" name="productEnclosureId" value="${productEnclosure.id}" hidden>
                     <td><input type="submit" value="DELETE"></td>
                 </form>
             </tr>
         </c:forEach>
     </table>
 </div>
-
-
-<%--<div>--%>
-<%--    <form action="/enclosure-button-create">--%>
-<%--        <h2>Create enclosures:</h2>--%>
-
-<%--        <label for="manufacture">MANUFACTURE:</label>--%>
-<%--        <input id="manufacture" type="text" name="manufacture">--%>
-
-<%--        <label for="code">CODE:</label>--%>
-<%--        <input id="code" type="text" name="code">--%>
-
-<%--        <label for="name">NAME:</label>--%>
-<%--        <input id="name" type="text" name="name" required>--%>
-
-<%--        <input type="submit" value="CREATE">--%>
-<%--    </form>--%>
-<%--</div>--%>
-
 
 <div>
     <table>
@@ -69,7 +49,6 @@
             <form action="/product-enclosure-button-add">
                 <tr>
                     <input type="text" name="enclosureId" value="${enclosure.id}" hidden>
-                    <input type="text" name="productId" value="${product}" hidden>
                     <td><c:out value="${enclosure.manufacturer}"/></td>
                     <td><c:out value="${enclosure.code}"/></td>
                     <td><c:out value="${enclosure.name}"/></td>

@@ -1,13 +1,11 @@
 package com.elcentr.controller.button;
 
-import com.elcentr.model.ProductEnclosure;
 import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.ProductEnclosureService;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.service.EnclosureService;
-import com.elcentr.service.ProductService;
+import com.elcentr.service.ProductEnclosureService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,37 +20,25 @@ public class ProductEnclosureButtonAdd extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setHeader("Cache-Control", "no-store");
-
         HttpSession session = req.getSession();
-        ProductService productService = new ProductService();
         ProductEnclosureService productEnclosureService = new ProductEnclosureService();
         EnclosureService enclosureService = new EnclosureService();
-        RequestDispatcher dispatcher;
 
-        Integer productSessionId = (Integer) session.getAttribute("productId");
-        String productId = req.getParameter("productId");
+        Product product = (Product) session.getAttribute("product");
         String enclosureId = req.getParameter("enclosureId");
         String amount = req.getParameter("amount");
 
-        Optional<Product> optProduct = productService.findById(Integer.parseInt(productId));
-        Optional<Enclosure> optEnclosure = enclosureService.findById(Integer.parseInt(enclosureId));
-
-        if (optProduct.isPresent() || optEnclosure.isPresent() || productId.equals(productSessionId.toString())) {
-            productEnclosureService.save(ProductEnclosure.builder()
-                    .product(optProduct.get())
-                    .enclosure(optEnclosure.get())
+        if (product != null || enclosureId != null || amount != null) {
+            Optional<Enclosure> optEnclosureById = enclosureService.findById(Integer.parseInt(enclosureId));
+            optEnclosureById.ifPresent(enclosure -> productEnclosureService.save(ProductEnclosure.builder()
+                    .product(product)
+                    .enclosure(enclosure)
                     .amountEnclosure(Integer.parseInt(amount))
-                    .build());
-            session.setAttribute("productId", productSessionId);
-            resp.sendRedirect("/product-enclosure");
+                    .build()));
         } else {
-            req.setAttribute("error", "Enclosure could not be added. Try again please");
-            session.setAttribute("productId", productSessionId);
-            dispatcher = req.getRequestDispatcher("/product-enclosure");
-            dispatcher.forward(req, resp);
+            String error = "Enclosure could not be added. Try again please";
+            session.setAttribute("error", error);
         }
+        resp.sendRedirect("/product-enclosure");
     }
 }

@@ -28,7 +28,7 @@ public class ProductController extends HttpServlet {
         Product product = (Product) session.getAttribute("product");
 
         if (productNew != null) {
-            String info = productService.getInfoProduct(productNew) + "saved";
+            String info = productService.getInfoProduct(productNew) + " saved";
             session.setAttribute("info", info);
             session.setAttribute("product", productNew);
             session.setAttribute("productNew", null);

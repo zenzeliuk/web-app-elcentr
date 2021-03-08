@@ -53,7 +53,7 @@ public class ProductEnclosureService {
         try {
             return productEnclosureDAO.findAllByIdProduct(id);
         } catch (Exception e) {
-            LOG.severe(String.format("Any component with code %d was not found", id));
+            LOG.severe(String.format("Any ProductEnclosure with code %d was not found", id));
         }
         return new ArrayList<>();
     }
@@ -63,7 +63,7 @@ public class ProductEnclosureService {
         try {
             return Optional.of(productEnclosureDAO.findById(id));
         } catch (Exception e) {
-            LOG.severe(String.format("Component with id %d was not found", id));
+            LOG.severe(String.format("ProductEnclosure with id %d was not found", id));
         }
         return Optional.empty();
     }

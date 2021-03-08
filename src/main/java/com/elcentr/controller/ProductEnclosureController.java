@@ -1,14 +1,14 @@
 package com.elcentr.controller;
 
-import com.elcentr.controller.dto.ProductEnclosureDTO;
 import com.elcentr.controller.dto.EnclosureDTO;
-import com.elcentr.controller.mapper.ProductEnclosureMapper;
+import com.elcentr.controller.dto.ProductEnclosureDTO;
 import com.elcentr.controller.mapper.EnclosureMapper;
-import com.elcentr.model.ProductEnclosure;
+import com.elcentr.controller.mapper.ProductEnclosureMapper;
 import com.elcentr.model.Enclosure;
 import com.elcentr.model.Product;
-import com.elcentr.service.ProductEnclosureService;
+import com.elcentr.model.ProductEnclosure;
 import com.elcentr.service.EnclosureService;
+import com.elcentr.service.ProductEnclosureService;
 import com.elcentr.service.ProductService;
 
 import javax.servlet.RequestDispatcher;
@@ -21,8 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
 
 @WebServlet(urlPatterns = "/product-enclosure")
 public class ProductEnclosureController extends HttpServlet {
@@ -40,7 +38,7 @@ public class ProductEnclosureController extends HttpServlet {
 
         Product product = (Product) session.getAttribute("product");
 
-        if (productService.findById(product.getId()).isPresent()) {
+        if (product != null) {
             List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
             List<ProductEnclosure> productEnclosureList = productEnclosureService.findAllByIdProduct(product.getId());
             List<ProductEnclosureDTO> productEnclosureDTOList = toProductEnclosureDTOList(productEnclosureList);
