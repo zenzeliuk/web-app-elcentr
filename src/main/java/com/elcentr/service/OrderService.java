@@ -1,7 +1,5 @@
 package com.elcentr.service;
 
-import com.elcentr.controller.dto.ProductOrderDTO;
-import com.elcentr.controller.mapper.ProductOrderMapper;
 import com.elcentr.dao.OrderDAO;
 import com.elcentr.model.Order;
 import com.elcentr.model.Product;

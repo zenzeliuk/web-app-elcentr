@@ -5,7 +5,6 @@
     <title>Customers</title>
 </head>
 <body>
-<h2>${info}</h2>
 <h2>${error}</h2>
 <h3><a href="/index.jsp">GO START PAGE!</a></h3><br>
 

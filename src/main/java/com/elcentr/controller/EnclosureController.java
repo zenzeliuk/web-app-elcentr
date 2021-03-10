@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = "/product-enclosure")
-public class ProductEnclosureController extends HttpServlet {
+@WebServlet(urlPatterns = "/enclosures")
+public class EnclosureController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -37,22 +37,18 @@ public class ProductEnclosureController extends HttpServlet {
         RequestDispatcher dispatcher;
 
         Product product = (Product) session.getAttribute("product");
+        List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
+        req.setAttribute("enclosures", enclosureDTOList);
 
         if (product != null) {
-            List<EnclosureDTO> enclosureDTOList = toEnclosureDTOList(enclosureService.findAll());
             List<ProductEnclosure> productEnclosureList = productEnclosureService.findAllByIdProduct(product.getId());
             List<ProductEnclosureDTO> productEnclosureDTOList = toProductEnclosureDTOList(productEnclosureList);
             req.setAttribute("info", productService.getInfoProduct(product));
             req.setAttribute("productEnclosures", productEnclosureDTOList);
-            req.setAttribute("enclosures", enclosureDTOList);
-            dispatcher = req.getRequestDispatcher("/jsp/product-enclosures.jsp");
-            dispatcher.forward(req, resp);
-        } else {
-            String error = "The product not found. Try again please";
-            session.setAttribute("error", error);
-            resp.sendRedirect("/index.jsp");
         }
 
+        dispatcher = req.getRequestDispatcher("/jsp/enclosures.jsp");
+        dispatcher.forward(req, resp);
 
     }
 

@@ -1,5 +1,7 @@
 package com.elcentr.controller;
 
+import com.elcentr.controller.dto.ProductDTO;
+import com.elcentr.controller.mapper.ProductMapper;
 import com.elcentr.model.Product;
 import com.elcentr.service.ProductService;
 
@@ -11,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = "/product")
 public class ProductController extends HttpServlet {
@@ -23,6 +26,7 @@ public class ProductController extends HttpServlet {
 
         HttpSession session = req.getSession();
         ProductService productService = new ProductService();
+        RequestDispatcher dispatcher;
 
         Product productNew = (Product) session.getAttribute("productNew");
         Product product = (Product) session.getAttribute("product");
@@ -32,15 +36,21 @@ public class ProductController extends HttpServlet {
             session.setAttribute("info", info);
             session.setAttribute("product", productNew);
             session.setAttribute("productNew", null);
-            resp.sendRedirect("/jsp/product.jsp");
-        } else if (product != null) {
+        }
+        if (product != null) {
             String info = productService.getInfoProduct(product);
             session.setAttribute("info", info);
-            resp.sendRedirect("/jsp/product.jsp");
-        } else {
-            String error = "The product not found. Try again please";
-            session.setAttribute("error", error);
-            resp.sendRedirect("/index.jsp");
         }
+
+        List<ProductDTO> productDTOList = toProductDTOList(productService.findAll());
+        req.setAttribute("products", productDTOList);
+        dispatcher = req.getRequestDispatcher("/jsp/product.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    private List<ProductDTO> toProductDTOList(List<Product> products) {
+        return products.stream()
+                .map(ProductMapper::toProductDTO)
+                .collect(Collectors.toList());
     }
 }

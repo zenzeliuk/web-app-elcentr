@@ -39,6 +39,6 @@ public class ProductEnclosureButtonAdd extends HttpServlet {
             String error = "Enclosure could not be added. Try again please";
             session.setAttribute("error", error);
         }
-        resp.sendRedirect("/product-enclosure");
+        resp.sendRedirect("/enclosures");
     }
 }

@@ -28,7 +28,7 @@ public class ProductEnclosureButtonDelete extends HttpServlet {
         if (product != null || productEnclosureId != null) {
             Optional<ProductEnclosure> optComponent = productEnclosureService.findById(Integer.parseInt(productEnclosureId));
             optComponent.ifPresent(productEnclosureService::delete);
-            resp.sendRedirect("/product-enclosure");
+            resp.sendRedirect("/enclosures");
         } else {
             String error = "ProductEnclosure could not be removed. Try again please";
             session.setAttribute("error", error);

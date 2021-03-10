@@ -28,13 +28,7 @@ public class CustomerController extends HttpServlet {
         RequestDispatcher dispatcher;
         CustomerService customerService = new CustomerService();
 
-        String info = null;
         String error = null;
-
-        if (session.getAttribute("info") != null) {
-            info = (String) session.getAttribute("info");
-            session.setAttribute("info", null);
-        }
 
         if (session.getAttribute("error") != null) {
             error = (String) session.getAttribute("error");
@@ -43,7 +37,6 @@ public class CustomerController extends HttpServlet {
 
         List<CustomerDTO> customerDTOList = toCustomerDTOList(customerService.findAll());
 
-        req.setAttribute("info", info);
         req.setAttribute("error", error);
         req.setAttribute("customers", customerDTOList);
         dispatcher = req.getRequestDispatcher("/jsp/customer.jsp");

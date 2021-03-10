@@ -1,13 +1,13 @@
 package com.elcentr.controller.mapper;
 
-import com.elcentr.controller.dto.ProductOrderDTO;
+import com.elcentr.controller.dto.OrderDTO;
 import com.elcentr.model.Customer;
 import com.elcentr.model.Order;
 import com.elcentr.model.ResidentialComplex;
 
-public class ProductOrderMapper {
+public class OrderMapper {
 
-    public static ProductOrderDTO toProductOrderDTO(Order order) {
+    public static OrderDTO toOrderDTO(Order order) {
         String orderId = null;
         String customerId = null;
         String complexId = null;
@@ -31,7 +31,7 @@ public class ProductOrderMapper {
 
         }
 
-        return ProductOrderDTO.builder()
+        return OrderDTO.builder()
                 .orderId(orderId)
                 .customerId(customerId)
                 .complexId(complexId)

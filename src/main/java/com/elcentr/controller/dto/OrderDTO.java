@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductOrderDTO {
+public class OrderDTO {
 
     private String orderId;
     private String customerId;
