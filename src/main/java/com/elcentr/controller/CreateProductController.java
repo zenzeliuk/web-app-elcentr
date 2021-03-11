@@ -49,7 +49,7 @@ public class CreateProductController extends HttpServlet {
                     .build();
             Optional<Product> optProduct = productService.save(product);
             if (optProduct.isPresent()) {
-                session.setAttribute("productNew", optProduct.get());
+                session.setAttribute("product", optProduct.get());
                 resp.sendRedirect("/product");
             } else {
                 String error = "The product could not be saved. Try again please";

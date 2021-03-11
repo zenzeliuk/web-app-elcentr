@@ -28,15 +28,8 @@ public class ProductController extends HttpServlet {
         ProductService productService = new ProductService();
         RequestDispatcher dispatcher;
 
-        Product productNew = (Product) session.getAttribute("productNew");
         Product product = (Product) session.getAttribute("product");
 
-        if (productNew != null) {
-            String info = productService.getInfoProduct(productNew) + " saved";
-            session.setAttribute("info", info);
-            session.setAttribute("product", productNew);
-            session.setAttribute("productNew", null);
-        }
         if (product != null) {
             String info = productService.getInfoProduct(product);
             session.setAttribute("info", info);
